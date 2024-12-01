@@ -1,0 +1,11 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.TabunganQurbanQ" parent="Theme.Material3.Light.NoActionBar">
+        <!-- Customize your light theme here. -->
+         <item name="colorPrimary">@color/primary</item>
+
+        <!-- Default Splash Screen Removed & Orientation Vertical-->
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+    <style name="Theme.TabunganQurbanQ" parent="Base.Theme.TabunganQurbanQ" />
+</resources>
