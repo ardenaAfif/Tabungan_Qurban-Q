@@ -8,4 +8,8 @@
         <item name="android:windowIsTranslucent">true</item>
     </style>
     <style name="Theme.TabunganQurbanQ" parent="Base.Theme.TabunganQurbanQ" />
+
+    <style name="App.Custom.Indicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">@color/secondary</item>
+    </style>
 </resources>
