@@ -1,0 +1,224 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:padding="8dp">
+
+    <!-- Row 1 -->
+    <LinearLayout
+        android:id="@+id/row1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/key1"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/satoshi_bold"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:backgroundTint="@color/white"
+            android:textSize="24sp"
+            android:text="1" />
+
+        <Button
+            android:id="@+id/key2"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/satoshi_bold"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:backgroundTint="@color/white"
+            android:textSize="24sp"
+            android:text="2" />
+
+        <Button
+            android:id="@+id/key3"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/satoshi_bold"
+            android:textColor="@color/black"
+            android:backgroundTint="@color/white"
+            android:gravity="center"
+            android:textSize="24sp"
+            android:text="3" />
+    </LinearLayout>
+
+    <!-- Row 2 -->
+    <LinearLayout
+        android:id="@+id/row2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/row1">
+
+        <Button
+            android:id="@+id/key4"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/satoshi_bold"
+            android:textColor="@color/black"
+            android:backgroundTint="@color/white"
+            android:gravity="center"
+            android:textSize="24sp"
+            android:text="4" />
+
+        <Button
+            android:id="@+id/key5"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/satoshi_bold"
+            android:textColor="@color/black"
+            android:backgroundTint="@color/white"
+            android:gravity="center"
+            android:textSize="24sp"
+            android:text="5" />
+
+        <Button
+            android:id="@+id/key6"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/satoshi_bold"
+            android:textColor="@color/black"
+            android:backgroundTint="@color/white"
+            android:gravity="center"
+            android:textSize="24sp"
+            android:text="6" />
+    </LinearLayout>
+
+    <!-- Row 3 -->
+    <LinearLayout
+        android:id="@+id/row3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/row2">
+
+        <Button
+            android:id="@+id/key7"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/satoshi_bold"
+            android:textColor="@color/black"
+            android:backgroundTint="@color/white"
+            android:gravity="center"
+            android:textSize="24sp"
+            android:text="7" />
+
+        <Button
+            android:id="@+id/key8"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/satoshi_bold"
+            android:textColor="@color/black"
+            android:backgroundTint="@color/white"
+            android:gravity="center"
+            android:textSize="24sp"
+            android:text="8"/>
+
+        <Button
+            android:id="@+id/key9"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/satoshi_bold"
+            android:textColor="@color/black"
+            android:backgroundTint="@color/white"
+            android:gravity="center"
+            android:textSize="24sp"
+            android:text="9"/>
+    </LinearLayout>
+
+    <!-- Row 4 -->
+    <LinearLayout
+        android:id="@+id/row4"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/row3">
+
+        <Button
+            android:id="@+id/key000"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/satoshi_bold"
+            android:textColor="@color/black"
+            android:backgroundTint="@color/white"
+            android:gravity="center"
+            android:textSize="24sp"
+            android:text="000"/>
+
+        <Button
+            android:id="@+id/key0"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/satoshi_bold"
+            android:textColor="@color/black"
+            android:backgroundTint="@color/white"
+            android:gravity="center"
+            android:textSize="24sp"
+            android:text="0" />
+
+        <Button
+            android:id="@+id/keyDelete"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/satoshi_bold"
+            android:textColor="@color/black"
+            android:backgroundTint="@color/white"
+            android:gravity="center"
+            android:textSize="24sp"
+            android:text="⌫" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/btnSelesai"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="12dp"
+        android:layout_marginTop="12dp"
+        android:text="Selesai"
+        android:textColor="@color/primary"
+        android:textSize="16sp"
+        android:fontFamily="@font/satoshi_bold"
+        android:gravity="center"
+        android:padding="14dp"
+        android:background="@drawable/bg_btn_stroke"
+        app:layout_constraintTop_toBottomOf="@+id/row4"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

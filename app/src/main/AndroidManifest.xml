@@ -13,11 +13,14 @@
         android:theme="@style/Theme.TabunganQurbanQ"
         tools:targetApi="31">
         <activity
+            android:name=".ui.nabung.NabungAmountActivity"
+            android:exported="false" />
+        <activity
             android:name=".auth.register.RegisterActivity"
             android:exported="false" />
         <activity
             android:name=".auth.login.LoginActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,9 +29,7 @@
         </activity>
         <activity
             android:name=".ui.MainActivity"
-            android:exported="true">
-
-        </activity>
+            android:exported="true"></activity>
     </application>
 
 </manifest>

@@ -10,8 +10,8 @@
 
     <item
         android:id="@+id/menu_about"
-        android:icon="@drawable/ic_about"
-        android:title="@string/app_name"
+        android:icon="@drawable/ic_profile"
+        android:title="@string/profile"
         app:showAsAction="ifRoom"/>
 
 </menu>
