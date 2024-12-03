@@ -1,5 +1,6 @@
 package id.qurban.tabunganqurban.ui.nabung
 
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -177,6 +178,10 @@ class NabungAmountActivity : AppCompatActivity() {
                         btnLanjut.setBackgroundColor(ContextCompat.getColor(this@NabungAmountActivity, R.color.primary)) // Warna utama
                         btnLanjut.setTextColor(ContextCompat.getColor(this@NabungAmountActivity, R.color.white)) // Warna teks putih
                         binding.tvWarning.visibility = View.GONE
+                        btnLanjut.setOnClickListener {
+                            val intent = Intent(this@NabungAmountActivity, DetailNabungActivity::class.java)
+                            startActivity(intent)
+                        }
                     }
                 }
                 etAmountNabung.addTextChangedListener(this)
