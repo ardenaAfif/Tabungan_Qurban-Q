@@ -31,18 +31,7 @@ class RegisterViewModel : ViewModel() {
 
             try {
                 val result = supabase.from("users").insert(user)
-//                    mapOf(
-//                        "id" to user.userId,
-//                        "first_name" to user.firstName,
-//                        "last_name" to user.lastName,
-//                        "email" to user.email,
-//                        "password" to user.password,
-//                        "prodi" to user.prodi,
-//                        "semester" to user.semester,
-//                        "total_tabungan" to user.totalTabungan,
-//                        "created_at" to user.createdAt
-//                    )
-//                )
+
                 Log.d("SupabaseDebug", "Result: ${result.data}, Error: ${result.headers}")
 
                 if (result.data != null) {

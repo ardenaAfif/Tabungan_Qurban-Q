@@ -50,6 +50,9 @@ android {
 
 dependencies {
 
+    // Hash Password
+    implementation("org.mindrot:jbcrypt:0.4")
+
     // Supabase
     implementation(platform("io.github.jan-tennert.supabase:bom:3.0.2"))
     implementation("io.github.jan-tennert.supabase:postgrest-kt")

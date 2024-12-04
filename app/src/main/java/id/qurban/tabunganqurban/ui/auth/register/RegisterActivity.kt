@@ -11,6 +11,7 @@ import id.qurban.tabunganqurban.data.User
 import id.qurban.tabunganqurban.data.UserResponse
 import id.qurban.tabunganqurban.databinding.ActivityRegisterBinding
 import id.qurban.tabunganqurban.ui.auth.login.LoginActivity
+import id.qurban.tabunganqurban.utils.PasswordHasher
 import java.util.UUID
 
 class RegisterActivity : AppCompatActivity() {
@@ -101,11 +102,14 @@ class RegisterActivity : AppCompatActivity() {
                     return@setOnClickListener
                 }
 
+                // Hash password sebelum disimpan ke database
+                val hashedPassword = PasswordHasher.hashPassword(passwordEditText.text.toString().trim())
+
                 // Membuat objek User untuk dikirim ke ViewModel
                 val user = User(
                     user_id = UUID.randomUUID().toString(),
                     email = emailEditText.text.toString().trim(),
-                    password = passwordEditText.text.toString().trim(),
+                    password = hashedPassword,
                     first_name = firstNameEditText.text.toString(),
                     last_name = lastNameEditText.text.toString(),
                     prodi = prodiEditText.text.toString(),
