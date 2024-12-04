@@ -100,19 +100,31 @@
                     android:layout_marginHorizontal="21dp"
                     android:text="Ingatkan Saya" />
 
-                <Button
-                    android:id="@+id/loginButton"
+                <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="32dp"
-                    android:layout_marginTop="8dp"
-                    android:backgroundTint="@color/primary"
-                    android:padding="12dp"
-                    android:text="@string/login"
-                    android:textColor="@color/white"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/confirmPasswordEditText" />
+                    android:layout_marginTop="16dp">
+
+                    <ProgressBar
+                        android:id="@+id/progresBarRegister"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:progressTint="@color/primary" />
+
+                    <Button
+                        android:id="@+id/loginButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="32dp"
+                        android:backgroundTint="@color/primary"
+                        android:padding="12dp"
+                        android:text="@string/login"
+                        android:textColor="@color/white"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/confirmPasswordEditText" />
+                </FrameLayout>
 
                 <!-- Already Registered Text -->
                 <LinearLayout

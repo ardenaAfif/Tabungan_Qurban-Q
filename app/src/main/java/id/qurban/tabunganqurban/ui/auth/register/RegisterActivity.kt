@@ -10,15 +10,12 @@ import androidx.lifecycle.Observer
 import id.qurban.tabunganqurban.data.User
 import id.qurban.tabunganqurban.data.UserResponse
 import id.qurban.tabunganqurban.databinding.ActivityRegisterBinding
-import id.qurban.tabunganqurban.supabase.SupabaseClient
 import id.qurban.tabunganqurban.ui.auth.login.LoginActivity
-import java.time.Instant
 import java.util.UUID
 
 class RegisterActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRegisterBinding
-    private val supabase = SupabaseClient.supabase // Menggunakan client yang sudah diinisiasi
     private val registerViewModel: RegisterViewModel by viewModels()  // ViewModel untuk registrasi
 
     override fun onCreate(savedInstanceState: Bundle?) {
