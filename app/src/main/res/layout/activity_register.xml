@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:fillViewport="true"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_login">
+    android:background="@drawable/bg_login"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -33,8 +33,8 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="21dp"
-            app:cardCornerRadius="10dp"
             android:elevation="0dp"
+            app:cardCornerRadius="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/logoImageView">
@@ -53,33 +53,12 @@
                     android:text="@string/register"
                     android:textSize="18sp" />
 
-                <!-- Email Input -->
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginHorizontal="26dp"
-                    android:fontFamily="@font/satoshi_medium"
-                    android:text="Email"
-                    android:textSize="16sp" />
-
-                <EditText
-                    android:id="@+id/emailEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="21dp"
-                    android:layout_marginTop="6dp"
-                    android:background="@drawable/edittext_background"
-                    android:hint="Masukkan email Antum"
-                    android:inputType="textEmailAddress"
-                    android:padding="12dp" />
-
                 <!-- First Name Input -->
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
                     android:layout_marginHorizontal="26dp"
+                    android:layout_marginTop="16dp"
                     android:fontFamily="@font/satoshi_medium"
                     android:text="Nama Depan"
                     android:textSize="16sp" />
@@ -99,8 +78,8 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
                     android:layout_marginHorizontal="26dp"
+                    android:layout_marginTop="16dp"
                     android:fontFamily="@font/satoshi_medium"
                     android:text="Nama Belakang"
                     android:textSize="16sp" />
@@ -116,15 +95,80 @@
                     android:inputType="textEmailAddress"
                     android:padding="12dp" />
 
+                <!-- Prodi Input -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="26dp"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/satoshi_medium"
+                    android:text="Program Studi"
+                    android:textSize="16sp" />
+
+                <EditText
+                    android:id="@+id/prodiEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="21dp"
+                    android:layout_marginTop="6dp"
+                    android:background="@drawable/edittext_background"
+                    android:hint="Masukkan prodi Antum"
+                    android:inputType="textEmailAddress"
+                    android:padding="12dp" />
+
+                <!-- Prodi Input -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="26dp"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/satoshi_medium"
+                    android:text="Semester"
+                    android:textSize="16sp" />
+
+                <EditText
+                    android:id="@+id/semesterEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="21dp"
+                    android:layout_marginTop="6dp"
+                    android:background="@drawable/edittext_background"
+                    android:hint="Masukkan semester Antum"
+                    android:inputType="number"
+                    android:padding="12dp" />
+
+                <!-- Email Input -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="26dp"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/satoshi_medium"
+                    android:text="Email"
+                    android:textSize="16sp" />
+
+                <EditText
+                    android:id="@+id/emailEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="21dp"
+                    android:layout_marginTop="6dp"
+                    android:background="@drawable/edittext_background"
+                    android:hint="Masukkan email Antum"
+                    android:inputType="textEmailAddress"
+                    android:padding="12dp" />
+
+
                 <!-- Password Input -->
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
                     android:layout_marginHorizontal="26dp"
+                    android:layout_marginTop="16dp"
                     android:fontFamily="@font/satoshi_medium"
                     android:text="Password"
                     android:textSize="16sp" />
+
                 <EditText
                     android:id="@+id/passwordEditText"
                     android:layout_width="match_parent"
@@ -140,11 +184,12 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
                     android:layout_marginHorizontal="26dp"
+                    android:layout_marginTop="16dp"
                     android:fontFamily="@font/satoshi_medium"
                     android:text="Konfirmasi Password"
                     android:textSize="16sp" />
+
                 <EditText
                     android:id="@+id/confirmPasswordEditText"
                     android:layout_width="match_parent"
@@ -157,27 +202,40 @@
                     android:padding="12dp" />
 
                 <!-- Register Button -->
-                <Button
-                    android:id="@+id/registerButton"
+                <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="32dp"
-                    android:layout_marginTop="16dp"
-                    android:backgroundTint="@color/primary"
-                    android:padding="12dp"
-                    android:text="@string/register"
-                    android:textColor="@color/white"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/confirmPasswordEditText" />
+                    android:layout_marginTop="16dp">
+
+                    <ProgressBar
+                        android:id="@+id/progresBarRegister"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:progressTint="@color/primary" />
+
+                    <Button
+                        android:id="@+id/registerButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="32dp"
+                        android:backgroundTint="@color/primary"
+                        android:padding="12dp"
+                        android:text="@string/register"
+                        android:textColor="@color/white"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/confirmPasswordEditText" />
+                </FrameLayout>
+
 
                 <!-- Already Registered Text -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
                     android:layout_marginTop="12dp"
                     android:layout_marginBottom="21dp"
+                    android:gravity="center"
                     android:orientation="horizontal">
 
                     <TextView
@@ -185,7 +243,7 @@
                         android:layout_height="wrap_content"
                         android:text="Sudah punya akun tabungan?"
                         android:textColor="@color/grey"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/alreadyRegisteredText"
@@ -195,7 +253,7 @@
                         android:fontFamily="@font/satoshi_bold"
                         android:text="@string/login"
                         android:textColor="@color/primary"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp" />
                 </LinearLayout>
 
             </LinearLayout>

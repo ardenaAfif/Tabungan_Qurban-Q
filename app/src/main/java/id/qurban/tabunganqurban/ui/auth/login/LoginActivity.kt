@@ -1,4 +1,4 @@
-package id.qurban.tabunganqurban.auth.login
+package id.qurban.tabunganqurban.ui.auth.login
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import id.qurban.tabunganqurban.R
-import id.qurban.tabunganqurban.auth.register.RegisterActivity
+import id.qurban.tabunganqurban.ui.auth.register.RegisterActivity
 import id.qurban.tabunganqurban.databinding.ActivityLoginBinding
 import id.qurban.tabunganqurban.ui.MainActivity
 import id.qurban.tabunganqurban.ui.home.HomeFragment
@@ -28,6 +28,7 @@ class LoginActivity : AppCompatActivity() {
     private fun gotoHome() {
         Intent(this, MainActivity::class.java).also {
             startActivity(it)
+            finish()
         }
     }
 
@@ -35,6 +36,7 @@ class LoginActivity : AppCompatActivity() {
         binding.notRegisteredText.setOnClickListener {
             Intent(this, RegisterActivity::class.java).also {
                 startActivity(it)
+                finish()
             }
         }
     }
