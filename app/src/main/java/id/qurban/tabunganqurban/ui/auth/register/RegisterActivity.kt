@@ -2,6 +2,7 @@ package id.qurban.tabunganqurban.ui.auth.register
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -104,6 +105,7 @@ class RegisterActivity : AppCompatActivity() {
 
                 // Hash password sebelum disimpan ke database
                 val hashedPassword = PasswordHasher.hashPassword(passwordEditText.text.toString().trim())
+                Log.d("Register", "Hashed Password: $hashedPassword")
 
                 // Membuat objek User untuk dikirim ke ViewModel
                 val user = User(

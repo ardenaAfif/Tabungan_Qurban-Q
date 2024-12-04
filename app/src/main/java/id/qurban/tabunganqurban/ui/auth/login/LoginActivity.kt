@@ -39,7 +39,6 @@ class LoginActivity : AppCompatActivity() {
 
         setupListeners()
         observeLoginStatus()
-
     }
 
     private fun setupListeners() {
