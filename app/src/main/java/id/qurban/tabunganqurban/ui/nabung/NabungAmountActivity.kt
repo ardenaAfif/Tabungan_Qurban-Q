@@ -19,6 +19,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import id.qurban.tabunganqurban.R
 import id.qurban.tabunganqurban.databinding.ActivityNabungAmountBinding
 import id.qurban.tabunganqurban.databinding.CustomKeyboardBinding
+import id.qurban.tabunganqurban.utils.FormatHelper.formatCurrency
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 
@@ -194,14 +195,6 @@ class NabungAmountActivity : AppCompatActivity() {
         val formattedAmount = formatCurrency(amount)
         binding.amountEditText.setText(formattedAmount)
         binding.amountEditText.setSelection(formattedAmount.length) // Move the cursor to the end
-    }
-
-    private fun formatCurrency(input: String): String {
-        val number = input.toLongOrNull() ?: 0L
-        val symbols = DecimalFormatSymbols().apply { groupingSeparator = '.' }
-        val formatter = DecimalFormat("#,###", symbols)
-
-        return "Rp ${formatter.format(number.coerceAtLeast(0))}"
     }
 
     private fun disableDefaultKeyboard(editText: EditText) {

@@ -13,6 +13,7 @@ import androidx.fragment.app.viewModels
 import id.qurban.tabunganqurban.R
 import id.qurban.tabunganqurban.databinding.FragmentProfileBinding
 import id.qurban.tabunganqurban.ui.auth.login.LoginActivity
+import id.qurban.tabunganqurban.utils.FormatHelper.toCamelCase
 
 class ProfileFragment : Fragment() {
 
@@ -42,15 +43,16 @@ class ProfileFragment : Fragment() {
         val userId = sharedPreferences.getString("user_id", null)
 
         if (userId != null) {
-            Log.d("ProfileFragment", "User ID retrieved: $userId")  // Pastikan user_id benar
-
             profileViewModel.fetchUser(userId)
             profileViewModel.user.observe(viewLifecycleOwner) { user ->
                 if (user != null) {
                     Log.d("ProfileFragment", "User data received: $user")  // Pastikan data diterima
 
+                    // Format name to CamelCase
+                    val formattedName = "${user.first_name.toCamelCase()} ${user.last_name.toCamelCase()}"
+
                     // Update UI dengan data pengguna
-                    binding.profileName.text = "${user.first_name} ${user.last_name}"
+                    binding.profileName.text = formattedName
                     binding.profileEmail.text = user.email
                     binding.profileProdi.text = user.prodi
                     binding.profileSemester.text = " / ${user.semester}"

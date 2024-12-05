@@ -46,7 +46,7 @@
                     android:fontFamily="@font/satoshi_bold"
                     android:ellipsize="end"
                     android:lines="1"
-                    android:text="Ardena Afif Pratama"
+                    tools:text="Ardena Afif Pratama"
                     android:textColor="@color/black"
                     android:textSize="18sp"/>
 
@@ -58,7 +58,7 @@
                     android:textStyle="italic"
                     android:ellipsize="end"
                     android:lines="1"
-                    android:text="ardea@email.com"
+                    tools:text="ardea@email.com"
                     android:textColor="@color/darker_grey"
                     android:textSize="16sp"/>
 
@@ -72,7 +72,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/satoshi_medium"
-                        android:text="Teknik Informatika "
+                        tools:text="Teknik Informatika "
                         android:textColor="@color/darker_grey"
                         android:textSize="16sp"/>
 
@@ -81,7 +81,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/satoshi_medium"
-                        android:text="/ 7"
+                        tools:text="/ 7"
                         android:textColor="@color/darker_grey"
                         android:textSize="16sp"/>
                 </LinearLayout>

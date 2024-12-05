@@ -33,7 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/satoshi_bold"
-            android:text="Selamat Pagi,"
+            tools:text="Selamat Pagi,"
             android:textColor="@color/primary"
             android:textSize="18sp" />
 
@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:fontFamily="@font/satoshi_bold"
-            android:text="Ardena"
+            tools:text="Ardena"
             android:textColor="@color/primary"
             android:textSize="18sp" />
     </LinearLayout>
@@ -87,7 +87,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:fontFamily="@font/satoshi_bold"
-                android:text="Rp 120.000"
+                android:text="Rp"
                 android:textColor="@color/white"
                 android:textSize="24sp"
                 app:layout_constraintStart_toStartOf="parent"
