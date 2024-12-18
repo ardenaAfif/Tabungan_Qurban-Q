@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import dagger.hilt.android.AndroidEntryPoint
 import id.qurban.tabunganqurban.R
 import id.qurban.tabunganqurban.databinding.FragmentHomeBinding
 import id.qurban.tabunganqurban.ui.nabung.NabungAmountActivity
@@ -18,6 +19,7 @@ import id.qurban.tabunganqurban.utils.FormatHelper
 import id.qurban.tabunganqurban.utils.FormatHelper.toCamelCase
 import java.util.Calendar
 
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
@@ -51,8 +53,8 @@ class HomeFragment : Fragment() {
                 if (user != null) {
 
                     // Format name to CamelCase
-                    val formattedName = user.first_name.toCamelCase()
-                    val formattedBalance = FormatHelper.formatCurrency(user.total_tabungan.toLong().toString())
+                    val formattedName = user.firstName.toCamelCase()
+                    val formattedBalance = FormatHelper.formatCurrency(user.totalTabungan.toLong().toString())
 
                     // Update UI dengan data pengguna
                     binding.apply{

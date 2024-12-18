@@ -1,63 +1,73 @@
 package id.qurban.tabunganqurban.ui.auth.login
 
-import android.app.Application
-import android.content.Context
-import android.util.Log
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import android.content.SharedPreferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import id.qurban.tabunganqurban.data.User
-import id.qurban.tabunganqurban.data.UserResponse
-import id.qurban.tabunganqurban.supabase.SupabaseClient
-import id.qurban.tabunganqurban.utils.PasswordHasher
-import io.github.jan.supabase.postgrest.from
-import io.github.jan.supabase.postgrest.query.Columns
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import dagger.hilt.android.lifecycle.HiltViewModel
+import id.qurban.tabunganqurban.utils.Constant.Constant.INTRODUCTION_KEY
+import id.qurban.tabunganqurban.utils.Resource
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class LoginViewModel(application: Application) : AndroidViewModel(application) {
+@HiltViewModel
+class LoginViewModel @Inject constructor(
+    private val sharedPreferences: SharedPreferences,
+    private val firebaseAuth: FirebaseAuth
+) : ViewModel() {
 
-    private val _loginStatus = MutableLiveData<UserResponse>()
-    val loginStatus: LiveData<UserResponse> get() = _loginStatus
+    private val _login = MutableSharedFlow<Resource<FirebaseUser>>()
+    val login = _login.asSharedFlow()
 
-    private val supabaseClient = SupabaseClient.supabase
+    private val _navigate = MutableStateFlow(0)
+    val navigate: StateFlow<Int> = _navigate
 
-    fun loginUser(email: String, password: String) {
+    init {
+        checkLoginStatus()
+
+    }
+
+    private fun checkLoginStatus() {
+        val isButtonClicked = sharedPreferences.getBoolean(INTRODUCTION_KEY, false)
+        val user = firebaseAuth.currentUser
+
         viewModelScope.launch {
-            _loginStatus.postValue(UserResponse.Loading)
-            try {
-                val response = supabaseClient.from("users")
-                    .select(
-                        columns = Columns.ALL
-                    ) {
-                        filter {
-                            eq("email", email)
-                            eq("password", password)
-                        }
-                    }
-                    .decodeSingleOrNull<User>()
-
-                if (response != null) {
-                    _loginStatus.postValue(UserResponse.Success("Login Berhasil"))
-                    saveUserId(response.user_id)
-                } else {
-                    Log.d("Login", "Password verified failed")
-                    _loginStatus.postValue(UserResponse.Error("Email atau Password salah"))
-                }
-            } catch (e: Exception) {
-                _loginStatus.postValue(UserResponse.Error("Terjadi kesalahan: ${e.message}"))
+            if (user != null) {
+                _navigate.emit(TABUNGAN_ACTIVITY) // Langsung ke halaman Home
+            } else if (isButtonClicked) {
+                _navigate.emit(LOGIN_ACTIVITY) // Ke halaman Login
+            } else {
+                Unit
             }
         }
     }
 
-    private fun saveUserId(userId: String) {
-        val sharedPreferences =
-            getApplication<Application>().getSharedPreferences("UserSession", Context.MODE_PRIVATE)
-        sharedPreferences.edit()
-            .putString("user_id", userId)
-            .apply()
 
-        Log.d("LoginViewModel", "User ID saved: $userId")
+    fun loginUser(email: String, password: String) {
+        viewModelScope.launch { _login.emit(Resource.Loading()) }
+
+        firebaseAuth.signInWithEmailAndPassword(email, password)
+            .addOnSuccessListener {
+                viewModelScope.launch {
+                    it.user?.let {
+                        _login.emit(Resource.Success(it))
+                    }
+                }
+            }
+            .addOnFailureListener {
+                viewModelScope.launch {
+                    _login.emit(Resource.Error(it.message.toString()))
+                }
+            }
+    }
+
+    companion object {
+        const val TABUNGAN_ACTIVITY = 23
+        const val LOGIN_ACTIVITY = 24
     }
 }

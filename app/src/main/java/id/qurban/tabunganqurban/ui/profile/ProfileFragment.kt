@@ -10,11 +10,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import dagger.hilt.android.AndroidEntryPoint
 import id.qurban.tabunganqurban.R
 import id.qurban.tabunganqurban.databinding.FragmentProfileBinding
 import id.qurban.tabunganqurban.ui.auth.login.LoginActivity
 import id.qurban.tabunganqurban.utils.FormatHelper.toCamelCase
 
+@AndroidEntryPoint
 class ProfileFragment : Fragment() {
 
     private var _binding: FragmentProfileBinding? = null
@@ -49,7 +51,7 @@ class ProfileFragment : Fragment() {
                     Log.d("ProfileFragment", "User data received: $user")  // Pastikan data diterima
 
                     // Format name to CamelCase
-                    val formattedName = "${user.first_name.toCamelCase()} ${user.last_name.toCamelCase()}"
+                    val formattedName = "${user.firstName.toCamelCase()} ${user.lastName.toCamelCase()}"
 
                     // Update UI dengan data pengguna
                     binding.profileName.text = formattedName

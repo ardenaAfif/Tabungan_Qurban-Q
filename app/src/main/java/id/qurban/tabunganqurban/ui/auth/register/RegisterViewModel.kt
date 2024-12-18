@@ -1,53 +1,87 @@
 package id.qurban.tabunganqurban.ui.auth.register
 
-import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import dagger.hilt.android.lifecycle.HiltViewModel
 import id.qurban.tabunganqurban.data.User
-import id.qurban.tabunganqurban.data.UserResponse
-import id.qurban.tabunganqurban.supabase.SupabaseClient
-import io.github.jan.supabase.auth.auth
-import io.github.jan.supabase.auth.providers.builtin.Email
-import io.github.jan.supabase.postgrest.from
-import io.github.jan.supabase.postgrest.postgrest
-import kotlinx.coroutines.launch
+import id.qurban.tabunganqurban.utils.Constant.Constant.USER_COLLECTION
+import id.qurban.tabunganqurban.utils.RegisterFieldState
+import id.qurban.tabunganqurban.utils.RegisterValidation
+import id.qurban.tabunganqurban.utils.Resource
+import id.qurban.tabunganqurban.utils.validateEmail
+import id.qurban.tabunganqurban.utils.validateEmpty
+import id.qurban.tabunganqurban.utils.validateFirstName
+import id.qurban.tabunganqurban.utils.validatePassword
+import id.qurban.tabunganqurban.utils.validateProdi
+import id.qurban.tabunganqurban.utils.validateSemester
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.runBlocking
+import javax.inject.Inject
 
-class RegisterViewModel : ViewModel() {
-    private val _registrationStatus = MutableLiveData<UserResponse>()
-    val registrationStatus: LiveData<UserResponse> get() = _registrationStatus
+@HiltViewModel
+class RegisterViewModel @Inject constructor(
+    private val firebaseAuth: FirebaseAuth,
+    private val firebaseFirestore: FirebaseFirestore
+) : ViewModel() {
 
-    private val _isLoading = MutableLiveData<Boolean>()
-    val isLoading: LiveData<Boolean> get() = _isLoading
+    private val _register = MutableStateFlow<Resource<User>>(Resource.Unspecified())
+    val register: Flow<Resource<User>> = _register
 
-    private val supabase =
-        SupabaseClient.supabase // Menggunakan SupabaseClient yang sudah diinisiasi
+    private val _validation = Channel<RegisterFieldState>()
+    val validation = _validation.receiveAsFlow()
 
-    fun registerUser(user: User) {
-        viewModelScope.launch {
-            _isLoading.value = true
-            _registrationStatus.value = UserResponse.Loading
-
-            try {
-                val result = supabase.from("users").insert(user)
-
-                Log.d("SupabaseDebug", "Result: ${result.data}, Error: ${result.headers}")
-
-                if (result.data != null) {
-                    _registrationStatus.value = UserResponse.Success("Akun berhasil dibuat.")
-                } else {
-                    _registrationStatus.value =
-                        UserResponse.Error("Terjadi kesalahan: ${result.data}.")
-                }
-                Log.d("RegisterViewModel", "Registering user: $user")
-            } catch (e: Exception) {
-                _registrationStatus.value = UserResponse.Error(e.message ?: "Terjadi kesalahan.")
-            } finally {
-                _isLoading.value = false
+    fun createAccuntWithEmailAndPassword(user: User, password: String) {
+        if (checkValidation(user, password)) {
+            runBlocking {
+                _register.emit(Resource.Loading())
             }
-
+            firebaseAuth.createUserWithEmailAndPassword(user.email, password)
+                .addOnSuccessListener {
+                    it.user?.let {
+                        saveUserInfo(it.uid, user)
+                    }
+                }
+                .addOnFailureListener {
+                    _register.value = Resource.Error(it.message.toString())
+                }
+        } else {
+            val registerFieldState = RegisterFieldState(
+                validateEmpty(user.firstName, user.email, password),
+                validateEmail(user.email),
+                validatePassword(password),
+                validateSemester(user.semester.toString()),
+                validateProdi(user.prodi),
+                validateFirstName(user.firstName)
+            )
+            runBlocking {
+                _validation.send(registerFieldState)
+            }
         }
+    }
+
+    private fun saveUserInfo(userUid: String, user: User) {
+        firebaseFirestore.collection(USER_COLLECTION)
+            .document(userUid)
+            .set(user)
+            .addOnSuccessListener {
+                _register.value = Resource.Success(user)
+            }
+            .addOnFailureListener {
+                _register.value = Resource.Error(it.message.toString())
+            }
+    }
+
+    private fun checkValidation(user: User, password: String): Boolean {
+        val emailValidation = validateEmail(user.email)
+        val passwordValidation = validatePassword(password)
+        val shouldRegister = emailValidation is RegisterValidation.Success &&
+                passwordValidation is RegisterValidation.Success
+
+        return shouldRegister
     }
 
 }

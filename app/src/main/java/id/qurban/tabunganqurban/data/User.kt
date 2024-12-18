@@ -1,17 +1,17 @@
 package id.qurban.tabunganqurban.data
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
 
-@Serializable
+@Parcelize
 data class User(
-    val user_id: String,
     val email: String,
-    val first_name: String,
-    val last_name: String,
-    val password: String,
+    val firstName: String,
+    val lastName: String,
     val prodi: String,
     val semester: Int,
-    val total_tabungan: Double,
-//    val createdAt: Long = System.currentTimeMillis() // Default value untuk waktu saat ini
-)
-
+    val totalTabungan: Double
+) : Parcelable {
+    constructor(): this("", "",  "", "", 0, 0.0)
+}
