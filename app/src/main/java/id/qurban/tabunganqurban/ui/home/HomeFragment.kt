@@ -55,7 +55,8 @@ class HomeFragment : Fragment() {
                     }
                     is Resource.Success -> {
                         binding.apply {
-                            welcomingFirstNameText.text = it.data?.firstName
+                            welcomingFirstNameText.text = it.data?.firstName?.toCamelCase()
+                            amountText.text = FormatHelper.formatCurrency((it.data?.totalTabungan ?: 0.0).toString())
                         }
                     }
                     is Resource.Error -> {

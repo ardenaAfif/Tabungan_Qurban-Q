@@ -10,8 +10,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
+import id.qurban.tabunganqurban.R
 import id.qurban.tabunganqurban.databinding.FragmentProfileBinding
 import id.qurban.tabunganqurban.ui.auth.login.LoginActivity
+import id.qurban.tabunganqurban.utils.FormatHelper.toCamelCase
 import id.qurban.tabunganqurban.utils.Resource
 import kotlinx.coroutines.flow.collectLatest
 
@@ -47,9 +49,12 @@ class ProfileFragment : Fragment() {
                     }
                     is Resource.Success -> {
                         binding.apply {
-                            profileName.text = "${it.data?.firstName} ${it.data?.lastName}"
+                            profileName.text = getString(
+                                R.string.profile_name_format,
+                                it.data?.firstName.orEmpty().toCamelCase(),
+                                it.data?.lastName.orEmpty().toCamelCase())
                             profileEmail.text = it.data?.email
-                            profileSemester.text = " / ${it.data?.semester.toString()}"
+                            profileSemester.text = getString(R.string.profile_semester_format, it.data?.semester.toString())
                             profileProdi.text = it.data?.prodi
                         }
                     }

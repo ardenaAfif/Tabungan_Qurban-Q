@@ -4,4 +4,8 @@
     <string name="login">Masuk</string>
     <string name="register">Daftar</string>
     <string name="profile">Profil</string>
+
+    <string name="profile_name_format">%1$s %2$s</string>
+    <string name="profile_semester_format"> / %1$s</string>
+
 </resources>
