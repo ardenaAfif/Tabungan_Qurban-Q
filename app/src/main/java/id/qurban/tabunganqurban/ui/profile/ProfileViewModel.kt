@@ -1,35 +1,50 @@
 package id.qurban.tabunganqurban.ui.profile
 
-import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import dagger.hilt.android.lifecycle.HiltViewModel
 import id.qurban.tabunganqurban.data.User
-import id.qurban.tabunganqurban.supabase.FirebaseClient
+import id.qurban.tabunganqurban.utils.Resource
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ProfileViewModel : ViewModel() {
+@HiltViewModel
+class ProfileViewModel @Inject constructor(
+    private val firestore: FirebaseFirestore,
+    private val auth: FirebaseAuth
+) : ViewModel() {
 
-    private val _user = MutableLiveData<User?>()
-    val user: LiveData<User?> get() = _user
+    private val _user = MutableStateFlow<Resource<User>>(Resource.Unspecified())
+    val user = _user.asStateFlow()
 
-    fun fetchUser(userId: String) {
-        viewModelScope.launch {
-//            try {
-//                val response = supabaseClient.from("users")
-//                    .select(columns = Columns.ALL) {
-//                        filter {
-//                            eq("user_id", userId)
-//                        }
-//                    }
-//                    .decodeSingleOrNull<User>()
-//
-//                _user.postValue(response)
-//            } catch (e:Exception) {
-//                Log.e("ProfileViewModel", "Error fetching user: ${e.message}")
-//                _user.postValue(null)
-//            }
-        }
+    init {
+        fetchUser()
+    }
+
+    fun fetchUser() {
+        viewModelScope.launch { _user.emit(Resource.Loading()) }
+        firestore.collection("users").document(auth.uid!!)
+            .addSnapshotListener { value, error ->
+                if (error != null) {
+                    viewModelScope.launch {
+                        _user.emit(Resource.Error(error.message.toString()))
+                    }
+                } else {
+                    val user = value?.toObject(User::class.java)
+                    user?.let {
+                        viewModelScope.launch {
+                            _user.emit(Resource.Success(user))
+                        }
+                    }
+                }
+            }
+    }
+
+    fun logout() {
+        auth.signOut()
     }
 }

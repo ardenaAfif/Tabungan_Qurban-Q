@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import id.qurban.tabunganqurban.R
 import id.qurban.tabunganqurban.databinding.FragmentHomeBinding
@@ -17,6 +18,8 @@ import id.qurban.tabunganqurban.ui.nabung.NabungAmountActivity
 import id.qurban.tabunganqurban.ui.profile.ProfileViewModel
 import id.qurban.tabunganqurban.utils.FormatHelper
 import id.qurban.tabunganqurban.utils.FormatHelper.toCamelCase
+import id.qurban.tabunganqurban.utils.Resource
+import kotlinx.coroutines.flow.collectLatest
 import java.util.Calendar
 
 @AndroidEntryPoint
@@ -44,31 +47,23 @@ class HomeFragment : Fragment() {
     }
 
     private fun fetchFirstName() {
-        val sharedPreferences = requireContext().getSharedPreferences("UserSession", Context.MODE_PRIVATE)
-        val userId = sharedPreferences.getString("user_id", null)
+        lifecycleScope.launchWhenStarted {
+            profileViewModel.user.collectLatest {
+                when (it) {
+                    is Resource.Loading -> {
 
-        if (userId != null) {
-            profileViewModel.fetchUser(userId)
-            profileViewModel.user.observe(viewLifecycleOwner) { user ->
-                if (user != null) {
-
-                    // Format name to CamelCase
-                    val formattedName = user.firstName.toCamelCase()
-                    val formattedBalance = FormatHelper.formatCurrency(user.totalTabungan.toLong().toString())
-
-                    // Update UI dengan data pengguna
-                    binding.apply{
-                        welcomingFirstNameText.text = formattedName
-                        amountText.text = formattedBalance
                     }
-
-                } else {
-                    Toast.makeText(context, "Gagal memuat data pengguna", Toast.LENGTH_SHORT).show()
+                    is Resource.Success -> {
+                        binding.apply {
+                            welcomingFirstNameText.text = it.data?.firstName
+                        }
+                    }
+                    is Resource.Error -> {
+                        Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                    }
+                    else -> Unit
                 }
             }
-        } else {
-            Toast.makeText(context, "User tidak ditemukan.", Toast.LENGTH_SHORT).show()
-            Log.d("ProfileFragment", "User ID is null")  // User ID tidak ditemukan
         }
     }
 
