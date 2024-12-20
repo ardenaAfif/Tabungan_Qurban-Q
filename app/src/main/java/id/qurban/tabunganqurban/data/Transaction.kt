@@ -1,11 +1,16 @@
 package id.qurban.tabunganqurban.data
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
 
-@Serializable
+@Parcelize
 data class Transaction (
-    val transactionId: String,
+    val transactionId: String = "",
+    val userId: String,
     val amount: Double,
     val buktiTransfer: String,
-    val status: Boolean
-)
+    val status: String
+) : Parcelable {
+    constructor() : this( "", "",0.0, "", "")
+}

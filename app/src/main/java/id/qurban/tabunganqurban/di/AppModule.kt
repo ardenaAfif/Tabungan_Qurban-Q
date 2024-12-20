@@ -30,9 +30,9 @@ object AppModule {
     ) = application.getSharedPreferences(INTRODUCTION_SP, Context.MODE_PRIVATE)
 
     @Provides
-    fun provideFirebaseClient(
-        firestore: FirebaseFirestore,
-        auth: FirebaseAuth
-    ) = FirebaseClient(firestore, auth)
+    @Singleton
+    fun provideFirebaseClient(): FirebaseClient {
+        return FirebaseClient()
+    }
 
 }

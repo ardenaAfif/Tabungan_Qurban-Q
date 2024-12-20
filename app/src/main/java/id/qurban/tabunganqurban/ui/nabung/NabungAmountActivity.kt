@@ -19,15 +19,20 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import dagger.hilt.android.AndroidEntryPoint
 import id.qurban.tabunganqurban.R
 import id.qurban.tabunganqurban.data.Transaction
 import id.qurban.tabunganqurban.databinding.ActivityNabungAmountBinding
 import id.qurban.tabunganqurban.databinding.CustomKeyboardBinding
 import id.qurban.tabunganqurban.utils.FormatHelper.formatCurrency
+import id.qurban.tabunganqurban.utils.Resource
+import kotlinx.coroutines.flow.collectLatest
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 
+@AndroidEntryPoint
 class NabungAmountActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityNabungAmountBinding
@@ -43,18 +48,43 @@ class NabungAmountActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setupUI()
-//        setupViewModelObserver()
     }
 
     private fun handleLanjutClick() {
-        val userId = getUserIdFromSession()
         val amountText = binding.amountEditText.text.toString()
             .replace("Rp ", "")
             .replace(".", "")
         val amount = amountText.toDoubleOrNull() ?: 0.0
 
         if (amount >= 10000) {
-//            viewModel.addTransaction(userId, amount)
+            viewModel.addAmountTransaction(amount, "")
+
+            lifecycleScope.launchWhenStarted {
+                viewModel.transaction.collectLatest {
+                    Log.d(">>StateFlow", "Current state: $it")
+                    when (it) {
+                        is Resource.Success -> {
+                            // Write code here
+                            val transactionId = it.data?.transactionId
+                            if (transactionId != null) {
+                                val intent = Intent(this@NabungAmountActivity, DetailNabungActivity::class.java)
+                                intent.putExtra("transactionId", transactionId)
+                                startActivity(intent)
+                            } else {
+                                Log.e(">>NabungAmountActivity", "Transaction ID is null")
+                            }
+                        }
+                        is Resource.Loading -> {
+                            // Write code here
+                        }
+                        is Resource.Error -> {
+                            // Write code here
+                            Toast.makeText(this@NabungAmountActivity, "Error: ${it.message}", Toast.LENGTH_SHORT).show()
+                        }
+                        else -> Unit
+                    }
+                }
+            }
         }
     }
 
@@ -62,13 +92,33 @@ class NabungAmountActivity : AppCompatActivity() {
         binding.apply {
             if (amount < 10000L) {
                 btnLanjut.isEnabled = false
-                btnLanjut.setBackgroundColor(ContextCompat.getColor(this@NabungAmountActivity, R.color.darker_grey))
-                btnLanjut.setTextColor(ContextCompat.getColor(this@NabungAmountActivity, R.color.white))
+                btnLanjut.setBackgroundColor(
+                    ContextCompat.getColor(
+                        this@NabungAmountActivity,
+                        R.color.darker_grey
+                    )
+                )
+                btnLanjut.setTextColor(
+                    ContextCompat.getColor(
+                        this@NabungAmountActivity,
+                        R.color.white
+                    )
+                )
                 tvWarning.visibility = View.VISIBLE
             } else {
                 btnLanjut.isEnabled = true
-                btnLanjut.setBackgroundColor(ContextCompat.getColor(this@NabungAmountActivity, R.color.primary))
-                btnLanjut.setTextColor(ContextCompat.getColor(this@NabungAmountActivity, R.color.white))
+                btnLanjut.setBackgroundColor(
+                    ContextCompat.getColor(
+                        this@NabungAmountActivity,
+                        R.color.primary
+                    )
+                )
+                btnLanjut.setTextColor(
+                    ContextCompat.getColor(
+                        this@NabungAmountActivity,
+                        R.color.white
+                    )
+                )
                 tvWarning.visibility = View.GONE
             }
         }
@@ -97,7 +147,12 @@ class NabungAmountActivity : AppCompatActivity() {
             amountEditText.setText("Rp 0")
             amountEditText.setSelection(4) // Posisi setelah "Rp "
             btnLanjut.isEnabled = false
-            btnLanjut.setBackgroundColor(ContextCompat.getColor(this@NabungAmountActivity, R.color.darker_grey))
+            btnLanjut.setBackgroundColor(
+                ContextCompat.getColor(
+                    this@NabungAmountActivity,
+                    R.color.darker_grey
+                )
+            )
             btnLanjut.setTextColor(ContextCompat.getColor(this@NabungAmountActivity, R.color.white))
         }
 
@@ -218,30 +273,6 @@ class NabungAmountActivity : AppCompatActivity() {
         val formattedAmount = formatCurrency(amount)
         binding.amountEditText.setText(formattedAmount)
         binding.amountEditText.setSelection(formattedAmount.length) // Move the cursor to the end
-    }
-
-//    private fun setupViewModelObserver() {
-//        viewModel.transaction.observe(this) { result ->
-//            when(result) {
-//                is UserResponse.Success -> {
-//                    Toast.makeText(this, result.message, Toast.LENGTH_SHORT).show()
-//                    finish()
-//                }
-//                is UserResponse.Error -> {
-//                    Toast.makeText(this, result.message, Toast.LENGTH_SHORT).show()
-//                    Log.d(">>NabungVM", "Nabung data: $result")
-//                }
-//                else -> {
-//                    // Handle loading or any other states if needed
-//                    Toast.makeText(this, "Harap Tunggu...", Toast.LENGTH_SHORT).show()
-//                }
-//            }
-//        }
-//    }
-
-    private fun getUserIdFromSession(): String {
-        val sharedPreferences = getSharedPreferences("UserSession", Context.MODE_PRIVATE)
-        return sharedPreferences.getString("user_id", "") ?: ""
     }
 
     private fun disableDefaultKeyboard(editText: EditText) {
