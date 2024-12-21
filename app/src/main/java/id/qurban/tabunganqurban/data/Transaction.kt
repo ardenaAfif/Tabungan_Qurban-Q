@@ -10,7 +10,8 @@ data class Transaction (
     val userId: String,
     val amount: Double,
     val buktiTransfer: String,
-    val status: String
+    val status: String,
+    val dateCreated: String = ""
 ) : Parcelable {
     constructor() : this( "", "",0.0, "", "")
 }

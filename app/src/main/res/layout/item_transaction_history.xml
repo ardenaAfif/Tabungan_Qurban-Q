@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="10dp"
+    app:cardMaxElevation="8dp"
+    android:layout_marginHorizontal="18dp"
+    android:layout_marginBottom="16dp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="12dp"
+        android:background="@drawable/bg_btn_stroke"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".6"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvIdTransaksi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:fontFamily="@font/satoshi_medium"
+                android:textStyle="italic"
+                android:text="#saddvdcsfgdsf"
+                android:textColor="@color/darker_grey"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tvNominalTransaksi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:fontFamily="@font/satoshi_bold"
+                android:text="Rp 120.000"
+                android:textColor="@color/primary"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/tvDateTransaksi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:fontFamily="@font/satoshi_medium"
+                android:text="12 November 2024 | 12:23"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".2"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:layout_gravity="center_vertical"
+                android:fontFamily="@font/satoshi_medium"
+                android:text="Menunggu Konfirmasi"
+                android:textColor="@color/primary"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_marginTop="12dp"
+                android:layout_gravity="end|bottom"
+                android:rotation="180"
+                android:src="@drawable/ic_back"
+                app:tint="@color/darker_grey" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

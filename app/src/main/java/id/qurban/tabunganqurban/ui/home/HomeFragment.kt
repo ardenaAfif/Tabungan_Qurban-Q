@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import id.qurban.tabunganqurban.databinding.FragmentHomeBinding
+import id.qurban.tabunganqurban.ui.history.HistoryActivity
 import id.qurban.tabunganqurban.ui.nabung.NabungAmountActivity
 import id.qurban.tabunganqurban.ui.profile.ProfileViewModel
 import id.qurban.tabunganqurban.utils.FormatHelper
@@ -39,7 +40,7 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         welcomingTime()
-        gotoNabung()
+        menuListener()
         fetchFirstName()
     }
 
@@ -53,7 +54,7 @@ class HomeFragment : Fragment() {
                     is Resource.Success -> {
                         binding.apply {
                             welcomingFirstNameText.text = it.data?.firstName?.toCamelCase()
-                            amountText.text = FormatHelper.formatCurrency((it.data?.totalTabungan ?: 0.0).toString())
+                            amountText.text = FormatHelper.formatCurrencyString((it.data?.totalTabungan ?: 0.0).toString())
                         }
                     }
                     is Resource.Error -> {
@@ -65,10 +66,18 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun gotoNabung() {
-        binding.menuNabung.setOnClickListener {
-            Intent(requireContext(), NabungAmountActivity::class.java).also {
-                startActivity(it)
+    private fun menuListener() {
+        binding.apply {
+            menuNabung.setOnClickListener {
+                Intent(requireContext(), NabungAmountActivity::class.java).also {
+                    startActivity(it)
+                }
+            }
+
+            menuHistoryNabung.setOnClickListener {
+                Intent(requireContext(), HistoryActivity::class.java).also {
+                    startActivity(it)
+                }
             }
         }
     }

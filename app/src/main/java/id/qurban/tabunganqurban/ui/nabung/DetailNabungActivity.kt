@@ -13,17 +13,13 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Toast
-import android.window.OnBackInvokedDispatcher
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.AndroidEntryPoint
 import id.qurban.tabunganqurban.R
-import id.qurban.tabunganqurban.data.Transaction
 import id.qurban.tabunganqurban.databinding.ActivityDetailNabungBinding
 import id.qurban.tabunganqurban.ui.MainActivity
 import id.qurban.tabunganqurban.ui.profile.ProfileViewModel
@@ -72,7 +68,7 @@ class DetailNabungActivity : AppCompatActivity() {
                     is Resource.Success -> {
                         val transaction = it.data
                         if (transaction != null) {
-                            binding.tvInfoJumlahNabung.text = FormatHelper.formatCurrency(transaction.amount.toString())
+                            binding.tvInfoJumlahNabung.text = FormatHelper.formatCurrencyString(transaction.amount.toString())
                             binding.tvInfoIdTransaksi.text = transaction.transactionId
                         } else {
                             Toast.makeText(this@DetailNabungActivity, "Transaction not found", Toast.LENGTH_SHORT).show()

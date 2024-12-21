@@ -8,6 +8,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import id.qurban.tabunganqurban.data.Transaction
 import id.qurban.tabunganqurban.supabase.FirebaseClient
+import id.qurban.tabunganqurban.utils.FormatHelper
+import id.qurban.tabunganqurban.utils.FormatHelper.formatDate
 import id.qurban.tabunganqurban.utils.Resource
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -31,7 +33,8 @@ class NabuingVM @Inject constructor(
                     userId = userId ?: "",
                     amount = amount,
                     buktiTransfer = buktiTransfer,
-                    status = "pending"
+                    status = "Pending",
+                    dateCreated = formatDate()
                 )
                 firebaseClient.addTransaction(newTransaction).let { transactionId ->
                     _transaction.value = Resource.Success(newTransaction.copy(transactionId = transactionId.toString()))

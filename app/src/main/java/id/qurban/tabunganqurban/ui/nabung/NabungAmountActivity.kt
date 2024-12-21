@@ -1,6 +1,5 @@
 package id.qurban.tabunganqurban.ui.nabung
 
-import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -23,14 +22,11 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
 import id.qurban.tabunganqurban.R
-import id.qurban.tabunganqurban.data.Transaction
 import id.qurban.tabunganqurban.databinding.ActivityNabungAmountBinding
 import id.qurban.tabunganqurban.databinding.CustomKeyboardBinding
-import id.qurban.tabunganqurban.utils.FormatHelper.formatCurrency
+import id.qurban.tabunganqurban.utils.FormatHelper.formatCurrencyString
 import id.qurban.tabunganqurban.utils.Resource
 import kotlinx.coroutines.flow.collectLatest
-import java.text.DecimalFormat
-import java.text.DecimalFormatSymbols
 
 @AndroidEntryPoint
 class NabungAmountActivity : AppCompatActivity() {
@@ -258,7 +254,7 @@ class NabungAmountActivity : AppCompatActivity() {
                     etAmountNabung.setText("Rp 0")
                     etAmountNabung.setSelection(4) // Posisi setelah "Rp "
                 } else {
-                    etAmountNabung.setText(formatCurrency(text))
+                    etAmountNabung.setText(formatCurrencyString(text))
                     etAmountNabung.setSelection(etAmountNabung.text.length)
                 }
 
@@ -270,7 +266,7 @@ class NabungAmountActivity : AppCompatActivity() {
 
     // Function to update the amountEditText with selected template value
     private fun setAmount(amount: String) {
-        val formattedAmount = formatCurrency(amount)
+        val formattedAmount = formatCurrencyString(amount)
         binding.amountEditText.setText(formattedAmount)
         binding.amountEditText.setSelection(formattedAmount.length) // Move the cursor to the end
     }

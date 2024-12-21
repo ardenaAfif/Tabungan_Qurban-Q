@@ -12,6 +12,8 @@ constraintlayout = "2.2.0"
 navigationFragmentKtx = "2.6.0"
 viewpager2 = "1.1.0"
 identityAndroidLegacy = "202411.1"
+viewpager2Version = "1.1.0"
+
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -27,6 +29,8 @@ androidx-navigation-fragment-ktx = { module = "androidx.navigation:navigation-fr
 androidx-navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigationFragmentKtx" }
 androidx-viewpager2 = { module = "androidx.viewpager2:viewpager2", version.ref = "viewpager2" }
 identity-android-legacy = { group = "com.android.identity", name = "identity-android-legacy", version.ref = "identityAndroidLegacy" }
+viewpager2 = { module = "androidx.viewpager2:viewpager2", version.ref = "viewpager2Version" }
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
