@@ -3,6 +3,7 @@ package id.qurban.tabunganqurban.ui.auth.register
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -29,7 +30,22 @@ class RegisterActivity : AppCompatActivity() {
 
         observeRegistration()
         formValidation()
+        setupProdiSpinner()
         registerAction()
+
+        binding.alreadyRegisteredText.setOnClickListener {
+            gotoLogin()
+        }
+    }
+
+    private fun setupProdiSpinner() {
+        val programStudi = listOf("Perbandingan Madzhab", "Hukum Ekonomi Syariah")
+        val adapter = ArrayAdapter(
+            this,
+            android.R.layout.simple_spinner_dropdown_item,
+            programStudi
+        )
+        binding.prodiSpinner.adapter = adapter
     }
 
     private fun registerAction() {
@@ -39,7 +55,7 @@ class RegisterActivity : AppCompatActivity() {
                     emailEditText.text.toString(),
                     firstNameEditText.text.toString().trim(),
                     lastNameEditText.text.toString().trim(),
-                    prodiEditText.text.toString().trim(),
+                    prodiSpinner.selectedItem.toString().trim(),
                     semesterEditText.text.toString().toIntOrNull() ?: 0, // Konversi ke Int
                     0.0
                 )
@@ -148,12 +164,11 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun gotoLogin() {
-        binding.alreadyRegisteredText.setOnClickListener {
-            Intent(this, LoginActivity::class.java).also {
-                startActivity(it)
-                finish()
-            }
+        Intent(this, LoginActivity::class.java).also {
+            startActivity(it)
+            finish()
         }
+
     }
 
     private fun showLoading() {

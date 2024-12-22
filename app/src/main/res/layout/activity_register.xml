@@ -91,7 +91,7 @@
                     android:layout_marginHorizontal="21dp"
                     android:layout_marginTop="6dp"
                     android:background="@drawable/edittext_background"
-                    android:hint="Masukkan nama depan Antum"
+                    android:hint="Masukkan nama belakang Antum"
                     android:inputType="textEmailAddress"
                     android:padding="12dp" />
 
@@ -105,15 +105,13 @@
                     android:text="Program Studi"
                     android:textSize="16sp" />
 
-                <EditText
-                    android:id="@+id/prodiEditText"
+                <Spinner
+                    android:id="@+id/prodiSpinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="21dp"
                     android:layout_marginTop="6dp"
                     android:background="@drawable/edittext_background"
-                    android:hint="Masukkan prodi Antum"
-                    android:inputType="textEmailAddress"
                     android:padding="12dp" />
 
                 <!-- Prodi Input -->
