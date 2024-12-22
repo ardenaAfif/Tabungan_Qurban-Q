@@ -25,13 +25,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="80dp"
+            android:paddingHorizontal="21dp"
             android:orientation="vertical">
 
             <!-- First Name Input -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="26dp"
+                android:layout_marginHorizontal="5dp"
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/satoshi_medium"
                 android:text="Nama Depan"
@@ -41,7 +42,6 @@
                 android:id="@+id/firstNameEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="21dp"
                 android:layout_marginTop="6dp"
                 android:background="@drawable/edittext_background"
                 android:inputType="textEmailAddress"
@@ -52,7 +52,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="26dp"
+                android:layout_marginHorizontal="5dp"
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/satoshi_medium"
                 android:text="Nama Belakang"
@@ -62,7 +62,6 @@
                 android:id="@+id/lastNameEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="21dp"
                 android:layout_marginTop="6dp"
                 android:background="@drawable/edittext_background"
                 android:inputType="textEmailAddress"
@@ -73,7 +72,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="26dp"
+                android:layout_marginHorizontal="5dp"
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/satoshi_medium"
                 android:text="Program Studi"
@@ -83,7 +82,6 @@
                 android:id="@+id/prodiSpinner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="21dp"
                 android:layout_marginTop="6dp"
                 android:background="@drawable/edittext_background"
                 android:padding="12dp" />
@@ -92,7 +90,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="26dp"
+                android:layout_marginHorizontal="5dp"
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/satoshi_medium"
                 android:text="Semester"
@@ -102,7 +100,6 @@
                 android:id="@+id/semesterEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="21dp"
                 android:layout_marginTop="6dp"
                 android:background="@drawable/edittext_background"
                 android:inputType="number"
@@ -113,7 +110,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="26dp"
+                android:layout_marginHorizontal="5dp"
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/satoshi_medium"
                 android:text="Email"
@@ -123,7 +120,6 @@
                 android:id="@+id/emailEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="21dp"
                 android:layout_marginTop="6dp"
                 android:background="@drawable/edittext_background"
                 android:focusable="false"
