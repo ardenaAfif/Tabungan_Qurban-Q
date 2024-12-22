@@ -34,7 +34,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
                 android:gravity="center_vertical"
                 android:orientation="vertical">
@@ -60,12 +60,7 @@
                     android:lines="1"
                     tools:text="ardea@email.com"
                     android:textColor="@color/darker_grey"
-                    android:textSize="16sp"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:textSize="14sp"/>
 
                     <TextView
                         android:id="@+id/profileProdi"
@@ -73,8 +68,10 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/satoshi_medium"
                         tools:text="Teknik Informatika "
+                        android:lines="1"
+                        android:ellipsize="end"
                         android:textColor="@color/darker_grey"
-                        android:textSize="16sp"/>
+                        android:textSize="14sp"/>
 
                     <TextView
                         android:id="@+id/profileSemester"
@@ -83,9 +80,7 @@
                         android:fontFamily="@font/satoshi_medium"
                         tools:text="/ 7"
                         android:textColor="@color/darker_grey"
-                        android:textSize="16sp"/>
-                </LinearLayout>
-
+                        android:textSize="14sp"/>
 
             </LinearLayout>
         </LinearLayout>
@@ -111,7 +106,7 @@
             android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cardTranslate"
+                android:id="@+id/cardKelolaAkun"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
@@ -120,7 +115,7 @@
                 android:paddingBottom="14dp">
 
                 <ImageView
-                    android:id="@+id/imgTranslate"
+                    android:id="@+id/imgProfile"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_marginStart="8dp"
@@ -140,7 +135,7 @@
                     android:textColor="@color/white"
                     android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/imgTranslate"
+                    app:layout_constraintStart_toEndOf="@+id/imgProfile"
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 

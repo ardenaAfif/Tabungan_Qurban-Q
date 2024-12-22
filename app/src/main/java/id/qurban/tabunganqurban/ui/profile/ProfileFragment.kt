@@ -13,6 +13,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import id.qurban.tabunganqurban.R
 import id.qurban.tabunganqurban.databinding.FragmentProfileBinding
 import id.qurban.tabunganqurban.ui.auth.login.LoginActivity
+import id.qurban.tabunganqurban.ui.profile.kelola.KelolaAkunActivity
 import id.qurban.tabunganqurban.utils.FormatHelper.toCamelCase
 import id.qurban.tabunganqurban.utils.Resource
 import kotlinx.coroutines.flow.collectLatest
@@ -36,8 +37,21 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        menuListener()
         observeUser()
         logoutListener()
+    }
+
+    private fun menuListener() {
+        binding.apply {
+            cardKelolaAkun.setOnClickListener {
+                Intent(requireContext(), KelolaAkunActivity::class.java).also {
+                    startActivity(it)
+                }
+            }
+            cardPrivacy.setOnClickListener {  }
+            cardTentang.setOnClickListener {  }
+        }
     }
 
     private fun observeUser() {

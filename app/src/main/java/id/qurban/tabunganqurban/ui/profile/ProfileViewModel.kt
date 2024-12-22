@@ -44,6 +44,33 @@ class ProfileViewModel @Inject constructor(
             }
     }
 
+    fun updateProfile(
+        firstName: String,
+        lastName: String,
+        prodi: String,
+        semester: Int
+    ) {
+        val userId = auth.uid ?: return
+        val updatedData = mapOf(
+            "firstName" to firstName,
+            "lastName" to lastName,
+            "prodi" to prodi,
+            "semester" to semester
+        )
+
+        viewModelScope.launch {
+            _user.emit(Resource.Loading())
+            firestore.collection("users").document(userId)
+                .update(updatedData)
+                .addOnSuccessListener {
+                    fetchUser()
+                }
+                .addOnFailureListener { exception ->
+                    _user.value = Resource.Error(exception.message.toString())
+                }
+        }
+    }
+
     fun logout() {
         auth.signOut()
     }
