@@ -8,6 +8,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.QuerySnapshot
 import id.qurban.tabunganqurban.data.Transaction
+import id.qurban.tabunganqurban.data.User
+import id.qurban.tabunganqurban.utils.Constant
 import kotlinx.coroutines.tasks.await
 
 class FirebaseClient {
@@ -38,6 +40,15 @@ class FirebaseClient {
             .get().await()
     }
 
+    suspend fun getUserDetails(): User? {
+        val userId = auth.currentUser?.uid ?: return null
+        val userSnapshot = FirebaseFirestore.getInstance()
+            .collection(Constant.Constant.USER_COLLECTION)
+            .document(userId)
+            .get()
+            .await()
+        return userSnapshot.toObject(User::class.java)
+    }
 
     /**
      * Mendapatkan semua transaksi dari koleksi "transaction" berdasarkan userId.
@@ -81,5 +92,9 @@ class FirebaseClient {
             .collection("history").whereEqualTo("status", "Berhasil")
             .orderBy("dateCreated")
             .get().await()
+    }
+
+    suspend fun getAllHistoryFromUsers(): QuerySnapshot {
+        return firestore.collectionGroup("history").get().await()
     }
 }

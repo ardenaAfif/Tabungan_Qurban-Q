@@ -1,11 +1,14 @@
 package id.qurban.tabunganqurban.ui.auth.login
 
 import android.content.SharedPreferences
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.lifecycle.HiltViewModel
+import id.qurban.tabunganqurban.supabase.FirebaseClient
 import id.qurban.tabunganqurban.utils.Constant.Constant.INTRODUCTION_KEY
 import id.qurban.tabunganqurban.utils.Resource
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -18,7 +21,8 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val sharedPreferences: SharedPreferences,
-    private val firebaseAuth: FirebaseAuth
+    private val firebaseAuth: FirebaseAuth,
+    private val firebaseClient: FirebaseClient
 ) : ViewModel() {
 
     private val _login = MutableSharedFlow<Resource<FirebaseUser>>()
@@ -29,7 +33,6 @@ class LoginViewModel @Inject constructor(
 
     init {
         checkLoginStatus()
-
     }
 
     private fun checkLoginStatus() {
@@ -54,9 +57,14 @@ class LoginViewModel @Inject constructor(
         firebaseAuth.signInWithEmailAndPassword(email, password)
             .addOnSuccessListener {
                 viewModelScope.launch {
-                    it.user?.let {
-                        _login.emit(Resource.Success(it))
+                    val user = firebaseClient.getUserDetails()
+                    Log.d(">>LoginVM", "User Details: $user")
+                    if (user?.prodi == "Admin") {
+                        _navigate.emit(ADMIN_TABUNGAN)
+                    } else {
+                        _navigate.emit(TABUNGAN_ACTIVITY)
                     }
+                    _login.emit(Resource.Success(it.user!!))
                 }
             }
             .addOnFailureListener {
@@ -67,6 +75,7 @@ class LoginViewModel @Inject constructor(
     }
 
     companion object {
+        const val ADMIN_TABUNGAN = 20
         const val TABUNGAN_ACTIVITY = 23
         const val LOGIN_ACTIVITY = 24
     }
