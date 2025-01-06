@@ -46,7 +46,6 @@ class WaitingHistoryFragment : Fragment() {
             historyVM.waitingHistory.collectLatest { resource ->
                 when (resource) {
                     is Resource.Loading -> {
-                        Toast.makeText(requireContext(), "Tunggu Sebentar...", Toast.LENGTH_SHORT).show()
                     }
 
                     is Resource.Success -> {

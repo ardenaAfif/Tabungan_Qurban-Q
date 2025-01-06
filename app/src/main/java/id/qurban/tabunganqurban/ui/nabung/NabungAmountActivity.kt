@@ -24,6 +24,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import id.qurban.tabunganqurban.R
 import id.qurban.tabunganqurban.databinding.ActivityNabungAmountBinding
 import id.qurban.tabunganqurban.databinding.CustomKeyboardBinding
+import id.qurban.tabunganqurban.ui.history.HistoryActivity
 import id.qurban.tabunganqurban.utils.FormatHelper.formatCurrencyString
 import id.qurban.tabunganqurban.utils.Resource
 import kotlinx.coroutines.flow.collectLatest
@@ -61,14 +62,7 @@ class NabungAmountActivity : AppCompatActivity() {
                     when (it) {
                         is Resource.Success -> {
                             // Write code here
-                            val transactionId = it.data?.transactionId
-                            if (transactionId != null) {
-                                val intent = Intent(this@NabungAmountActivity, DetailNabungActivity::class.java)
-                                intent.putExtra("transactionId", transactionId)
-                                startActivity(intent)
-                            } else {
-                                Log.e(">>NabungAmountActivity", "Transaction ID is null")
-                            }
+                            navigateToHistoryNabung()
                         }
                         is Resource.Loading -> {
                             // Write code here
@@ -82,6 +76,11 @@ class NabungAmountActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun navigateToHistoryNabung() {
+        val intent = Intent(this, HistoryActivity::class.java)
+        startActivity(intent)
     }
 
     private fun updateLanjutButtonState(amount: Long) {

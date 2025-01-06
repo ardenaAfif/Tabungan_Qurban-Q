@@ -18,6 +18,8 @@ import id.qurban.tabunganqurban.R
 import id.qurban.tabunganqurban.ui.auth.register.RegisterActivity
 import id.qurban.tabunganqurban.databinding.ActivityLoginBinding
 import id.qurban.tabunganqurban.ui.MainActivity
+import id.qurban.tabunganqurban.ui.admin.AdminHistoryActivity
+import id.qurban.tabunganqurban.ui.history.HistoryActivity
 import id.qurban.tabunganqurban.ui.home.HomeFragment
 import id.qurban.tabunganqurban.utils.Resource
 import kotlinx.coroutines.launch
@@ -45,6 +47,10 @@ class LoginActivity : AppCompatActivity() {
                 when (destination) {
                     LoginViewModel.TABUNGAN_ACTIVITY -> {
                         gotoHome()
+                    }
+
+                    LoginViewModel.ADMIN_TABUNGAN -> {
+                        gotoHistory()
                     }
 
                     LoginViewModel.LOGIN_ACTIVITY -> {
@@ -102,6 +108,14 @@ class LoginActivity : AppCompatActivity() {
 
     private fun gotoHome() {
         Intent(this, MainActivity::class.java).also {
+            it.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(it)
+            finish()
+        }
+    }
+
+    private fun gotoHistory() {
+        Intent(this, AdminHistoryActivity::class.java).also {
             it.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(it)
             finish()

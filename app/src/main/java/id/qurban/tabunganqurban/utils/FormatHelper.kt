@@ -36,7 +36,7 @@ object FormatHelper {
     }
 
     fun formatDate(): String {
-        val dateFormat = SimpleDateFormat("dd MMMM yyyy", Locale("id", "ID"))
+        val dateFormat = SimpleDateFormat("dd MMMM yyyy HH:mm:ss", Locale("id", "ID"))
         dateFormat.timeZone = TimeZone.getTimeZone("Asia/Jakarta") // Set ke WIB (GMT +7)
         return dateFormat.format(Date())
     }

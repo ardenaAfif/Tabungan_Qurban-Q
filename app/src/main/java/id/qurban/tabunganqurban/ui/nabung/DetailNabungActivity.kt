@@ -38,6 +38,8 @@ class DetailNabungActivity : AppCompatActivity() {
     private val profileViewModel: ProfileViewModel by viewModels()
     private val nabungViewModel: NabuingVM by viewModels()
 
+    private lateinit var transactionId: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailNabungBinding.inflate(layoutInflater)
@@ -51,40 +53,8 @@ class DetailNabungActivity : AppCompatActivity() {
             showUploadBottomSheet()
         }
 
-        val transactionId = intent.getStringExtra("transactionId")
-        if (transactionId != null) {
-            nabungViewModel.getTransactionById(transactionId)
-        }
-
-        // Observasi Tabungan
-        observeTabungan()
     }
 
-    private fun observeTabungan() {
-
-        lifecycleScope.launchWhenStarted {
-            nabungViewModel.transaction.collectLatest {
-                when (it) {
-                    is Resource.Success -> {
-                        val transaction = it.data
-                        if (transaction != null) {
-                            binding.tvInfoJumlahNabung.text = FormatHelper.formatCurrencyString(transaction.amount.toString())
-                            binding.tvInfoIdTransaksi.text = transaction.transactionId
-                        } else {
-                            Toast.makeText(this@DetailNabungActivity, "Transaction not found", Toast.LENGTH_SHORT).show()
-                            Log.e(">>DetailNabungActivity", "Transaction data is null")
-                        }
-                    }
-                    is Resource.Error -> {
-                        Toast.makeText(this@DetailNabungActivity, "Error: ${it.message}", Toast.LENGTH_SHORT).show()
-                        Log.e(">>DetailNabungActivity", "Error fetching transaction: ${it.message}")
-                    }
-                    else -> Unit
-                }
-            }
-        }
-
-    }
 
     private fun getUser() {
         lifecycleScope.launchWhenStarted {
@@ -222,12 +192,6 @@ class DetailNabungActivity : AppCompatActivity() {
         }
         startActivity(intent)
         finish()
-    }
-
-    private fun showCustomToast(message: String) {
-        val toast = Toast.makeText(this, message, Toast.LENGTH_SHORT)
-        toast.setGravity(Gravity.TOP, 0, 200) // Pindahkan ke atas dengan offset vertikal 200px
-        toast.show()
     }
 
     companion object {
