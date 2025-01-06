@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import id.qurban.tabunganqurban.databinding.FragmentHomeBinding
+import id.qurban.tabunganqurban.supabase.FirebaseClient
 import id.qurban.tabunganqurban.ui.history.HistoryActivity
 import id.qurban.tabunganqurban.ui.nabung.NabungAmountActivity
 import id.qurban.tabunganqurban.ui.profile.ProfileViewModel
@@ -27,6 +28,7 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val profileViewModel: ProfileViewModel by viewModels()
+    private val firebaseClient = FirebaseClient()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,6 +44,18 @@ class HomeFragment : Fragment() {
         welcomingTime()
         menuListener()
         fetchFirstName()
+        amountSetup()
+    }
+
+    private fun amountSetup() {
+        lifecycleScope.launchWhenStarted {
+            try {
+                val totalAmount = firebaseClient.getTotalAmountUser()
+                binding.amountText.text = FormatHelper.formatCurrencyDouble(totalAmount)
+            } catch (e: Exception) {
+                Toast.makeText(requireContext(), e.message, Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun fetchFirstName() {
@@ -54,7 +68,6 @@ class HomeFragment : Fragment() {
                     is Resource.Success -> {
                         binding.apply {
                             welcomingFirstNameText.text = it.data?.firstName?.toCamelCase()
-                            amountText.text = FormatHelper.formatCurrencyString((it.data?.totalTabungan ?: 0.0).toString())
                         }
                     }
                     is Resource.Error -> {

@@ -50,6 +50,20 @@ class FirebaseClient {
         return userSnapshot.toObject(User::class.java)
     }
 
+    suspend fun getTotalAmountUser(): Double {
+        val userId = auth.uid ?: throw IllegalStateException("User ID is Null")
+        val historyCollection = firestore.collection("users").document(userId).collection("history")
+        val querySnapshot = historyCollection.whereEqualTo("status", "Berhasil").get().await()
+
+        // Tambahkan log untuk memastikan data ditemukan
+        Log.d(">>FirebaseClient", "Documents found: ${querySnapshot.size()}")
+        querySnapshot.documents.forEach { document ->
+            Log.d(">>FirebaseClient", "Document data: ${document.data}")
+        }
+
+        return querySnapshot.documents.sumOf { it.toObject(Transaction::class.java)?.amount ?: 0.0 }
+    }
+
     /**
      * Mendapatkan semua transaksi dari koleksi "transaction" berdasarkan userId.
      */

@@ -45,7 +45,7 @@ class AllHistoryFragment : Fragment() {
             historyVM.allHistory.collectLatest { resource ->
                 when (resource) {
                     is Resource.Loading -> {
-                        Toast.makeText(requireContext(), "Sek ya...", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), "Sedang memuat data...", Toast.LENGTH_SHORT).show()
                     }
 
                     is Resource.Success -> {
