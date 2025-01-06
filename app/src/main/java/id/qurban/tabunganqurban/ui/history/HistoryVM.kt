@@ -3,12 +3,14 @@ package id.qurban.tabunganqurban.ui.history
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.QuerySnapshot
 import dagger.hilt.android.lifecycle.HiltViewModel
 import id.qurban.tabunganqurban.data.Transaction
 import id.qurban.tabunganqurban.supabase.FirebaseClient
 import id.qurban.tabunganqurban.utils.Resource
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -35,42 +37,36 @@ class HistoryVM @Inject constructor(
     }
 
     private fun fetchAllTransaction() {
+        val userId = auth.uid ?: return
         viewModelScope.launch {
             _allHistory.emit(Resource.Loading())
-            try {
-                val result = firebaseClient.getUserTransactionHistory(auth.uid!!)
-                val history = result.toObjects(Transaction::class.java)
-                val sortedHistory = history.sortedByDescending { it.dateCreated }
-                _allHistory.emit(Resource.Success(sortedHistory))
-            } catch (e: Exception) {
-                _allHistory.emit(Resource.Error(e.message.toString()))
+            firebaseClient.getUserTransactionHistory(userId).collectLatest { resource ->
+                _allHistory.emit(resource)
             }
         }
     }
 
     fun fetchTransactionByStatus(status: String) {
-        viewModelScope.launch {
-            val targetFlow = when (status) {
-                "Pending" -> _pendingHistory
-                "Menunggu Konfirmasi" -> _waitingHistory
-                "Berhasil" -> _acceptedHistory
-                else -> throw IllegalArgumentException("Unknown status: $status")
-            }
+        val userId = auth.uid ?: return
+        val targetFlow = when (status) {
+            "Pending" -> _pendingHistory
+            "Menunggu Konfirmasi" -> _waitingHistory
+            "Berhasil" -> _acceptedHistory
+            else -> throw IllegalArgumentException("Unknown status: $status")
+        }
 
+        viewModelScope.launch {
             targetFlow.emit(Resource.Loading())
-            try {
-                val userId = auth.uid ?: throw Exception("User ID is null")
-                val result = when (status) {
-                    "Pending" -> firebaseClient.getPendingTransactionHistory(userId)
-                    "Menunggu Konfirmasi" -> firebaseClient.getWaitingTransactionHistory(userId)
-                    "Berhasil" -> firebaseClient.getAcceptedTransactionHistory(userId)
-                    else -> throw IllegalArgumentException("Unknown status: $status")
+            when (status) {
+                "Pending" -> firebaseClient.getPendingTransactionHistory(userId).collectLatest { resource ->
+                    targetFlow.emit(resource)
                 }
-                val history = result.toObjects(Transaction::class.java)
-                val sortedHistory = history.sortedByDescending { it.dateCreated }
-                targetFlow.emit(Resource.Success(sortedHistory))
-            } catch (e: Exception) {
-                targetFlow.emit(Resource.Error(e.message.toString()))
+                "Menunggu Konfirmasi" -> firebaseClient.getWaitingTransactionHistory(userId).collectLatest { resource ->
+                    targetFlow.emit(resource)
+                }
+                "Berhasil" -> firebaseClient.getAcceptedTransactionHistory(userId).collectLatest { resource ->
+                    targetFlow.emit(resource)
+                }
             }
         }
     }

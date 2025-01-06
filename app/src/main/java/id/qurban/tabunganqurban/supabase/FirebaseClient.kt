@@ -1,15 +1,17 @@
 package id.qurban.tabunganqurban.supabase
 
 import android.util.Log
-import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.QuerySnapshot
 import id.qurban.tabunganqurban.data.Transaction
 import id.qurban.tabunganqurban.data.User
 import id.qurban.tabunganqurban.utils.Constant
+import id.qurban.tabunganqurban.utils.Resource
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
 
 class FirebaseClient {
@@ -50,63 +52,125 @@ class FirebaseClient {
         return userSnapshot.toObject(User::class.java)
     }
 
-    suspend fun getTotalAmountUser(): Double {
+    /**
+     * Mendapatkan total amount user dari sub-koleksi "history" dalam "users" secara real-time.
+     */
+    fun getTotalAmountUserFlow(): Flow<Double> = callbackFlow {
         val userId = auth.uid ?: throw IllegalStateException("User ID is Null")
         val historyCollection = firestore.collection("users").document(userId).collection("history")
-        val querySnapshot = historyCollection.whereEqualTo("status", "Berhasil").get().await()
 
-        // Tambahkan log untuk memastikan data ditemukan
-        Log.d(">>FirebaseClient", "Documents found: ${querySnapshot.size()}")
-        querySnapshot.documents.forEach { document ->
-            Log.d(">>FirebaseClient", "Document data: ${document.data}")
+        val listenerRegistration = historyCollection.whereEqualTo("status", "Berhasil")
+            .addSnapshotListener { snapshot, error ->
+                if (error != null) {
+                    Log.e(">>Firestore", "Error in query: ${error.message}")
+                    return@addSnapshotListener
+                }
+                if (snapshot == null) {
+                    trySend(0.0).isSuccess
+                    return@addSnapshotListener
+                }
+                val totalAmount = snapshot.documents.sumOf { it.toObject(Transaction::class.java)?.amount ?: 0.0 }
+                trySend(totalAmount).isSuccess
+            }
+        awaitClose {
+            listenerRegistration.remove()
         }
-
-        return querySnapshot.documents.sumOf { it.toObject(Transaction::class.java)?.amount ?: 0.0 }
     }
 
     /**
-     * Mendapatkan semua transaksi dari koleksi "transaction" berdasarkan userId.
+     * Mendapatkan history transaksi dari sub-koleksi "history" dalam "users" secara real-time.
      */
-    suspend fun getTransaction(userId: String): QuerySnapshot? {
-        return firestore.collection("transaction")
-            .whereEqualTo("userId", userId)
-            .get().await()
-    }
-
-    /**
-     * Mendapatkan history transaksi dari sub-koleksi "history" dalam "users".
-     */
-    suspend fun getUserTransactionHistory(userId: String): QuerySnapshot {
-        return firestore.collection("users").document(userId)
+    fun getUserTransactionHistory(userId: String): Flow<Resource<List<Transaction>>> = callbackFlow {
+        val listenerRegistration = firestore.collection("users").document(userId)
             .collection("history").orderBy("dateCreated")
-            .get().await()
-    }
-
-    suspend fun getPendingTransactionHistory(userId: String): QuerySnapshot {
-        try {
-            return firestore.collection("users").document(userId)
-                .collection("history").whereEqualTo("status", "Pending")
-                .orderBy("dateCreated")
-                .get().await()
-        } catch (e: FirebaseFirestoreException) {
-            Log.e(">>Firestore", "Error in query: ${e.message}")
-            throw e
+            .addSnapshotListener { snapshot, error ->
+                if (error != null) {
+                    Log.e(">>Firestore", "Error in query: ${error.message}")
+                    trySend(Resource.Error(error.message ?: "Unknown error")).isSuccess
+                    return@addSnapshotListener
+                }
+                if (snapshot == null) {
+                    trySend(Resource.Error("Snapshot is null")).isSuccess
+                    return@addSnapshotListener
+                }
+                val history = snapshot.toObjects(Transaction::class.java)
+                val sortedHistory = history.sortedByDescending { it.dateCreated }
+                trySend(Resource.Success(sortedHistory)).isSuccess
+            }
+        awaitClose {
+            listenerRegistration.remove()
         }
     }
 
-    suspend fun getWaitingTransactionHistory(userId: String): QuerySnapshot {
-        return firestore.collection("users").document(userId)
+    fun getPendingTransactionHistory(userId: String): Flow<Resource<List<Transaction>>> = callbackFlow {
+        val listenerRegistration = firestore.collection("users").document(userId)
+            .collection("history").whereEqualTo("status", "Pending")
+            .orderBy("dateCreated")
+            .addSnapshotListener { snapshot, error ->
+                if (error != null) {
+                    Log.e(">>Firestore", "Error in query: ${error.message}")
+                    trySend(Resource.Error(error.message ?: "Unknown error")).isSuccess
+                    return@addSnapshotListener
+                }
+                if (snapshot == null) {
+                    trySend(Resource.Error("Snapshot is null")).isSuccess
+                    return@addSnapshotListener
+                }
+                val history = snapshot.toObjects(Transaction::class.java)
+                val sortedHistory = history.sortedByDescending { it.dateCreated }
+                trySend(Resource.Success(sortedHistory)).isSuccess
+            }
+        awaitClose {
+            listenerRegistration.remove()
+        }
+    }
+
+    fun getWaitingTransactionHistory(userId: String): Flow<Resource<List<Transaction>>> = callbackFlow {
+        val listenerRegistration = firestore.collection("users").document(userId)
             .collection("history").whereEqualTo("status", "Menunggu Konfirmasi")
             .orderBy("dateCreated")
-            .get().await()
+            .addSnapshotListener { snapshot, error ->
+                if (error != null) {
+                    Log.e(">>Firestore", "Error in query: ${error.message}")
+                    trySend(Resource.Error(error.message ?: "Unknown error")).isSuccess
+                    return@addSnapshotListener
+                }
+                if (snapshot == null) {
+                    trySend(Resource.Error("Snapshot is null")).isSuccess
+                    return@addSnapshotListener
+                }
+                val history = snapshot.toObjects(Transaction::class.java)
+                val sortedHistory = history.sortedByDescending { it.dateCreated }
+                trySend(Resource.Success(sortedHistory)).isSuccess
+            }
+        awaitClose {
+            listenerRegistration.remove()
+        }
     }
 
-    suspend fun getAcceptedTransactionHistory(userId: String): QuerySnapshot {
-        return firestore.collection("users").document(userId)
+    fun getAcceptedTransactionHistory(userId: String): Flow<Resource<List<Transaction>>> = callbackFlow {
+        val listenerRegistration = firestore.collection("users").document(userId)
             .collection("history").whereEqualTo("status", "Berhasil")
             .orderBy("dateCreated")
-            .get().await()
+            .addSnapshotListener { snapshot, error ->
+                if (error != null) {
+                    Log.e(">>Firestore", "Error in query: ${error.message}")
+                    trySend(Resource.Error(error.message ?: "Unknown error")).isSuccess
+                    return@addSnapshotListener
+                }
+                if (snapshot == null) {
+                    trySend(Resource.Error("Snapshot is null")).isSuccess
+                    return@addSnapshotListener
+                }
+                val history = snapshot.toObjects(Transaction::class.java)
+                val sortedHistory = history.sortedByDescending { it.dateCreated }
+                trySend(Resource.Success(sortedHistory)).isSuccess
+            }
+        awaitClose {
+            listenerRegistration.remove()
+        }
     }
+
 
     suspend fun getAllHistoryFromUsers(): QuerySnapshot {
         return firestore.collectionGroup("history").get().await()

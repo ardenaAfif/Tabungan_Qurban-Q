@@ -49,11 +49,8 @@ class HomeFragment : Fragment() {
 
     private fun amountSetup() {
         lifecycleScope.launchWhenStarted {
-            try {
-                val totalAmount = firebaseClient.getTotalAmountUser()
+            firebaseClient.getTotalAmountUserFlow().collectLatest { totalAmount ->
                 binding.amountText.text = FormatHelper.formatCurrencyDouble(totalAmount)
-            } catch (e: Exception) {
-                Toast.makeText(requireContext(), e.message, Toast.LENGTH_SHORT).show()
             }
         }
     }
