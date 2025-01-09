@@ -162,7 +162,7 @@ class DetailWaitingNabungActivity : AppCompatActivity() {
     private fun customToolbar() {
         binding.toolbar.apply {
             navBack.setOnClickListener {
-                val intent = Intent(this@DetailWaitingNabungActivity, MainActivity::class.java)
+                val intent = Intent(this@DetailWaitingNabungActivity, HistoryActivity::class.java)
                 startActivity(intent)
             }
             navBack.setImageDrawable(ContextCompat.getDrawable(this@DetailWaitingNabungActivity, R.drawable.ic_close))
@@ -186,7 +186,7 @@ class DetailWaitingNabungActivity : AppCompatActivity() {
             val jumlahTransfer = (transaction.amount + 1000).toInt()
             val clip = ClipData.newPlainText("Jumlah Transfer", jumlahTransfer.toString())
             clipboard.setPrimaryClip(clip)
-            Toast.makeText(this, "Jumlah Transfer disalin: $jumlahTransfer", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Jumlah Transfer disalin: ${formatCurrencyDouble(transaction.amount)}", Toast.LENGTH_SHORT).show()
         }
     }
 
