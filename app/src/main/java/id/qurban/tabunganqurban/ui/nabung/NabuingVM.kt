@@ -44,26 +44,4 @@ class NabuingVM @Inject constructor(
             }
         }
     }
-
-    /**
-     * getTransactionById.
-     */
-    fun getTransactionById(transactionId: String) {
-        viewModelScope.launch {
-            _transaction.value = Resource.Loading()
-            try {
-                val snapshot = firebaseClient.getTransactionById(transactionId)
-                val transaction = snapshot?.documents?.firstOrNull()?.toObject(Transaction::class.java)
-                if (transaction != null) {
-                    _transaction.value = Resource.Success(transaction)
-                } else {
-                    _transaction.value = Resource.Error("Transaction not found")
-                }
-            } catch (e: Exception) {
-                _transaction.value = Resource.Error(e.message ?: "Unknown error")
-            }
-        }
-    }
-
-
 }

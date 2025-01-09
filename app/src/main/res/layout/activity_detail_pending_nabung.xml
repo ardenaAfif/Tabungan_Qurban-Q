@@ -243,7 +243,7 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/satoshi_medium"
                 android:gravity="end"
-                android:text="Afif Uhuuuyy"
+                android:text="ID#123"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
         </LinearLayout>

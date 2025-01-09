@@ -1,6 +1,7 @@
 package id.qurban.tabunganqurban.adapter
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import id.qurban.tabunganqurban.R
 import id.qurban.tabunganqurban.data.Transaction
 import id.qurban.tabunganqurban.databinding.ItemTransactionHistoryBinding
+import id.qurban.tabunganqurban.ui.detail.pending.DetailPendingNabungActivity
 import id.qurban.tabunganqurban.utils.FormatHelper.formatCurrencyDouble
 import id.qurban.tabunganqurban.utils.FormatHelper.formatCurrencyString
 
@@ -41,6 +43,16 @@ class HistoryAdapter(private val context: Context) :
                     "menunggu konfirmasi" -> tvStatus.setTextColor(context.getColor(R.color.orange))
                     "berhasil" -> tvStatus.setTextColor(context.getColor(R.color.primary))
                     else -> tvStatus.setTextColor(context.getColor(R.color.grey))
+                }
+
+                root.setOnClickListener {
+                    when(transaction.status.lowercase()) {
+                        "pending" -> {
+                            val intent = Intent(context, DetailPendingNabungActivity::class.java)
+                            intent.putExtra("transaction", transaction)
+                            context.startActivity(intent)
+                        }
+                    }
                 }
             }
         }
