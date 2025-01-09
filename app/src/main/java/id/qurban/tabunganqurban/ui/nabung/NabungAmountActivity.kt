@@ -37,7 +37,7 @@ class NabungAmountActivity : AppCompatActivity() {
     private var inputConnection: InputConnection? = null
     private lateinit var keyboardBottomSheet: BottomSheetDialog
 
-    private val viewModel: NabuingVM by viewModels()
+    private val viewModel: NabungVM by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

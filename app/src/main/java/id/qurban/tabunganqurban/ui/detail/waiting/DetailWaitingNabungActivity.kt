@@ -1,4 +1,4 @@
-package id.qurban.tabunganqurban.ui.detail.pending
+package id.qurban.tabunganqurban.ui.detail.waiting
 
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -19,10 +19,10 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
 import id.qurban.tabunganqurban.R
 import id.qurban.tabunganqurban.data.Transaction
-import id.qurban.tabunganqurban.databinding.ActivityDetailPendingNabungBinding
+import id.qurban.tabunganqurban.databinding.ActivityDetailWaitingNabungBinding
 import id.qurban.tabunganqurban.ui.MainActivity
 import id.qurban.tabunganqurban.ui.history.HistoryActivity
-import id.qurban.tabunganqurban.ui.nabung.NabuingVM
+import id.qurban.tabunganqurban.ui.nabung.NabungVM
 import id.qurban.tabunganqurban.ui.profile.ProfileViewModel
 import id.qurban.tabunganqurban.utils.FormatHelper.formatCurrencyDouble
 import id.qurban.tabunganqurban.utils.FormatHelper.toCamelCase
@@ -30,20 +30,20 @@ import id.qurban.tabunganqurban.utils.Resource
 import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
-class DetailPendingNabungActivity : AppCompatActivity() {
+class DetailWaitingNabungActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityDetailPendingNabungBinding
+    private lateinit var binding: ActivityDetailWaitingNabungBinding
     private var selectedImageUri: Uri? = null
     private var bottomSheetDialog: BottomSheetDialog? = null
 
     private val profileViewModel: ProfileViewModel by viewModels()
-    private val nabungViewModel: NabuingVM by viewModels()
+    private val nabungViewModel: NabungVM by viewModels()
 
     private lateinit var transaction: Transaction
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityDetailPendingNabungBinding.inflate(layoutInflater)
+        binding = ActivityDetailWaitingNabungBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         transaction = intent.getParcelableExtra("transaction")!!
@@ -82,7 +82,7 @@ class DetailPendingNabungActivity : AppCompatActivity() {
                         }
                     }
                     is Resource.Error -> {
-                        Toast.makeText(this@DetailPendingNabungActivity, it.message, Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@DetailWaitingNabungActivity, it.message, Toast.LENGTH_SHORT).show()
                     }
                     else -> Unit
                 }
@@ -162,10 +162,10 @@ class DetailPendingNabungActivity : AppCompatActivity() {
     private fun customToolbar() {
         binding.toolbar.apply {
             navBack.setOnClickListener {
-                val intent = Intent(this@DetailPendingNabungActivity, MainActivity::class.java)
+                val intent = Intent(this@DetailWaitingNabungActivity, MainActivity::class.java)
                 startActivity(intent)
             }
-            navBack.setImageDrawable(ContextCompat.getDrawable(this@DetailPendingNabungActivity, R.drawable.ic_close))
+            navBack.setImageDrawable(ContextCompat.getDrawable(this@DetailWaitingNabungActivity, R.drawable.ic_close))
             tvToolbarName.text = "Transfer Sekarang"
         }
     }
@@ -196,7 +196,7 @@ class DetailPendingNabungActivity : AppCompatActivity() {
     }
 
     private fun navigateToHome() {
-        val intent = Intent(this@DetailPendingNabungActivity, HistoryActivity::class.java).apply {
+        val intent = Intent(this@DetailWaitingNabungActivity, HistoryActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
             putExtra("navigateTo", "HistoryActivity")
         }

@@ -26,7 +26,7 @@
             android:name=".ui.history.HistoryActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.detail.pending.DetailPendingNabungActivity"
+            android:name=".ui.detail.waiting.DetailWaitingNabungActivity"
             android:exported="false" />
         <activity
             android:name=".ui.nabung.NabungAmountActivity"

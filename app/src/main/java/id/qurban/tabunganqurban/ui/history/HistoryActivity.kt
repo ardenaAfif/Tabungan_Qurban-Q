@@ -41,8 +41,8 @@ class HistoryActivity : AppCompatActivity() {
         TabLayoutMediator(binding.tabLayoutHistory, binding.viewPagerHistory) { tab, position ->
             when (position) {
                 0 -> tab.text = "Semua"
-                1 -> tab.text = "Pending"
-                2 -> tab.text = "Menunggu Konfirmasi"
+                1 -> tab.text = "Menunggu Konfirmasi"
+                2 -> tab.text = "Mengecek"
                 3 -> tab.text = "Berhasil"
                 else -> "Tab $position"
             }

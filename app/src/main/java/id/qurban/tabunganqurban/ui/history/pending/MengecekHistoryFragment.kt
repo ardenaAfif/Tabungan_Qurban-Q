@@ -10,7 +10,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
-import id.qurban.tabunganqurban.R
 import id.qurban.tabunganqurban.adapter.HistoryAdapter
 import id.qurban.tabunganqurban.databinding.FragmentPendingHistoryBinding
 import id.qurban.tabunganqurban.ui.history.HistoryVM
@@ -18,7 +17,7 @@ import id.qurban.tabunganqurban.utils.Resource
 import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
-class PendingHistoryFragment : Fragment() {
+class MengecekHistoryFragment : Fragment() {
 
     private lateinit var binding: FragmentPendingHistoryBinding
     private lateinit var historyAdapter: HistoryAdapter
@@ -38,7 +37,7 @@ class PendingHistoryFragment : Fragment() {
         observeHistory()
         setupRvPendingHistory()
 
-        historyVM.fetchTransactionByStatus("Pending")
+        historyVM.fetchTransactionByStatus("Mengecek")
     }
 
     private fun observeHistory() {

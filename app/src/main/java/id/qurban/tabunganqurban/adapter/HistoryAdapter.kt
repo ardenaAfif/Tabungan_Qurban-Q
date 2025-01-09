@@ -10,9 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import id.qurban.tabunganqurban.R
 import id.qurban.tabunganqurban.data.Transaction
 import id.qurban.tabunganqurban.databinding.ItemTransactionHistoryBinding
-import id.qurban.tabunganqurban.ui.detail.pending.DetailPendingNabungActivity
+import id.qurban.tabunganqurban.ui.detail.waiting.DetailWaitingNabungActivity
 import id.qurban.tabunganqurban.utils.FormatHelper.formatCurrencyDouble
-import id.qurban.tabunganqurban.utils.FormatHelper.formatCurrencyString
 
 class HistoryAdapter(private val context: Context) :
     RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder>() {
@@ -39,8 +38,8 @@ class HistoryAdapter(private val context: Context) :
                 tvDateTransaksi.text = transaction.dateCreated // Tanggal sesuai format WIB
                 // Tambahkan style warna status jika diperlukan
                 when (transaction.status.lowercase()) {
-                    "pending" -> tvStatus.setTextColor(context.getColor(R.color.red))
-                    "menunggu konfirmasi" -> tvStatus.setTextColor(context.getColor(R.color.orange))
+                    "menunggu konfirmasi" -> tvStatus.setTextColor(context.getColor(R.color.red))
+                    "mengecek" -> tvStatus.setTextColor(context.getColor(R.color.orange))
                     "berhasil" -> tvStatus.setTextColor(context.getColor(R.color.primary))
                     else -> tvStatus.setTextColor(context.getColor(R.color.grey))
                 }
@@ -48,7 +47,7 @@ class HistoryAdapter(private val context: Context) :
                 root.setOnClickListener {
                     when(transaction.status.lowercase()) {
                         "pending" -> {
-                            val intent = Intent(context, DetailPendingNabungActivity::class.java)
+                            val intent = Intent(context, DetailWaitingNabungActivity::class.java)
                             intent.putExtra("transaction", transaction)
                             context.startActivity(intent)
                         }

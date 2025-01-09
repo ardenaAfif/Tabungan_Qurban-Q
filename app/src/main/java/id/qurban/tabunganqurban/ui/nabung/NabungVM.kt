@@ -3,22 +3,18 @@ package id.qurban.tabunganqurban.ui.nabung
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import id.qurban.tabunganqurban.data.Transaction
 import id.qurban.tabunganqurban.supabase.FirebaseClient
-import id.qurban.tabunganqurban.utils.FormatHelper
 import id.qurban.tabunganqurban.utils.FormatHelper.formatDate
 import id.qurban.tabunganqurban.utils.Resource
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 @HiltViewModel
-class NabuingVM @Inject constructor(
+class NabungVM @Inject constructor(
     private val firebaseClient: FirebaseClient
 ): ViewModel() {
 
