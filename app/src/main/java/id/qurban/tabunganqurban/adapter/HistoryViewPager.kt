@@ -5,15 +5,15 @@ import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import id.qurban.tabunganqurban.ui.history.all.AllHistoryFragment
 import id.qurban.tabunganqurban.ui.history.berhasil.BerhasilHistoryFragment
-import id.qurban.tabunganqurban.ui.history.pending.MengecekHistoryFragment
+import id.qurban.tabunganqurban.ui.history.mengecek.MengecekHistoryFragment
 import id.qurban.tabunganqurban.ui.history.waiting.WaitingHistoryFragment
 
 class HistoryViewPager(fragment: FragmentActivity) : FragmentStateAdapter(fragment) {
 
     private val fragmentList = listOf(
         AllHistoryFragment(),
-        MengecekHistoryFragment(),
         WaitingHistoryFragment(),
+        MengecekHistoryFragment(),
         BerhasilHistoryFragment(),
     )
 

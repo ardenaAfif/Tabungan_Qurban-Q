@@ -3,7 +3,6 @@ package id.qurban.tabunganqurban.supabase
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.QuerySnapshot
 import id.qurban.tabunganqurban.data.Transaction
 import id.qurban.tabunganqurban.data.User
@@ -102,9 +101,9 @@ class FirebaseClient {
         }
     }
 
-    fun getPendingTransactionHistory(userId: String): Flow<Resource<List<Transaction>>> = callbackFlow {
+    fun getMengecekTransactionHistory(userId: String): Flow<Resource<List<Transaction>>> = callbackFlow {
         val listenerRegistration = firestore.collection("users").document(userId)
-            .collection("history").whereEqualTo("status", "Pending")
+            .collection("history").whereEqualTo("status", "Mengecek")
             .orderBy("dateCreated")
             .addSnapshotListener { snapshot, error ->
                 if (error != null) {

@@ -3,7 +3,6 @@ package id.qurban.tabunganqurban.ui.history
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.QuerySnapshot
 import dagger.hilt.android.lifecycle.HiltViewModel
 import id.qurban.tabunganqurban.data.Transaction
 import id.qurban.tabunganqurban.supabase.FirebaseClient
@@ -23,8 +22,8 @@ class HistoryVM @Inject constructor(
     private val _allHistory = MutableStateFlow<Resource<List<Transaction>>>(Resource.Unspecified())
     val allHistory: StateFlow<Resource<List<Transaction>>> = _allHistory
 
-    private val _pendingHistory = MutableStateFlow<Resource<List<Transaction>>>(Resource.Unspecified())
-    val pendingHistory: StateFlow<Resource<List<Transaction>>> = _pendingHistory
+    private val _mengecekHistory = MutableStateFlow<Resource<List<Transaction>>>(Resource.Unspecified())
+    val mengecekHistory: StateFlow<Resource<List<Transaction>>> = _mengecekHistory
 
     private val _waitingHistory = MutableStateFlow<Resource<List<Transaction>>>(Resource.Unspecified())
     val waitingHistory: StateFlow<Resource<List<Transaction>>> = _waitingHistory
@@ -49,7 +48,7 @@ class HistoryVM @Inject constructor(
     fun fetchTransactionByStatus(status: String) {
         val userId = auth.uid ?: return
         val targetFlow = when (status) {
-            "Pending" -> _pendingHistory
+            "Mengecek" -> _mengecekHistory
             "Menunggu Konfirmasi" -> _waitingHistory
             "Berhasil" -> _acceptedHistory
             else -> throw IllegalArgumentException("Unknown status: $status")
@@ -58,7 +57,7 @@ class HistoryVM @Inject constructor(
         viewModelScope.launch {
             targetFlow.emit(Resource.Loading())
             when (status) {
-                "Pending" -> firebaseClient.getPendingTransactionHistory(userId).collectLatest { resource ->
+                "Mengecek" -> firebaseClient.getMengecekTransactionHistory(userId).collectLatest { resource ->
                     targetFlow.emit(resource)
                 }
                 "Menunggu Konfirmasi" -> firebaseClient.getWaitingTransactionHistory(userId).collectLatest { resource ->

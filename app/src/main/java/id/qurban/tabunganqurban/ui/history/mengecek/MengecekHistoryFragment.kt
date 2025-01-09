@@ -1,4 +1,4 @@
-package id.qurban.tabunganqurban.ui.history.pending
+package id.qurban.tabunganqurban.ui.history.mengecek
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,7 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import id.qurban.tabunganqurban.adapter.HistoryAdapter
-import id.qurban.tabunganqurban.databinding.FragmentPendingHistoryBinding
+import id.qurban.tabunganqurban.databinding.FragmentWaitingHistoryBinding
 import id.qurban.tabunganqurban.ui.history.HistoryVM
 import id.qurban.tabunganqurban.utils.Resource
 import kotlinx.coroutines.flow.collectLatest
@@ -19,7 +19,7 @@ import kotlinx.coroutines.flow.collectLatest
 @AndroidEntryPoint
 class MengecekHistoryFragment : Fragment() {
 
-    private lateinit var binding: FragmentPendingHistoryBinding
+    private lateinit var binding: FragmentWaitingHistoryBinding
     private lateinit var historyAdapter: HistoryAdapter
     private val historyVM: HistoryVM by viewModels()
 
@@ -27,7 +27,7 @@ class MengecekHistoryFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentPendingHistoryBinding.inflate(inflater, container, false)
+        binding = FragmentWaitingHistoryBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -42,7 +42,7 @@ class MengecekHistoryFragment : Fragment() {
 
     private fun observeHistory() {
         lifecycleScope.launchWhenStarted {
-            historyVM.pendingHistory.collectLatest { resource ->
+            historyVM.mengecekHistory.collectLatest { resource ->
                 when (resource) {
                     is Resource.Loading -> {
                     }
@@ -64,7 +64,7 @@ class MengecekHistoryFragment : Fragment() {
 
     private fun setupRvPendingHistory() {
         historyAdapter = HistoryAdapter(requireContext())
-        binding.rvPendingTransaction.apply {
+        binding.rvWaitingTransaction.apply {
             adapter = historyAdapter
             layoutManager = LinearLayoutManager(requireContext())
         }

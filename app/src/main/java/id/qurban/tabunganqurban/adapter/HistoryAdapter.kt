@@ -46,7 +46,7 @@ class HistoryAdapter(private val context: Context) :
 
                 root.setOnClickListener {
                     when(transaction.status.lowercase()) {
-                        "pending" -> {
+                        "menunggu konfirmasi" -> {
                             val intent = Intent(context, DetailWaitingNabungActivity::class.java)
                             intent.putExtra("transaction", transaction)
                             context.startActivity(intent)
