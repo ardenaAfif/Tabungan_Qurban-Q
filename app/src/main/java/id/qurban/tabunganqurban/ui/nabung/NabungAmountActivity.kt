@@ -81,6 +81,7 @@ class NabungAmountActivity : AppCompatActivity() {
     private fun navigateToHistoryNabung() {
         val intent = Intent(this, HistoryActivity::class.java)
         startActivity(intent)
+        finish()
     }
 
     private fun updateLanjutButtonState(amount: Long) {

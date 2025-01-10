@@ -186,7 +186,7 @@ class DetailWaitingNabungActivity : AppCompatActivity() {
             val jumlahTransfer = (transaction.amount + 1000).toInt()
             val clip = ClipData.newPlainText("Jumlah Transfer", jumlahTransfer.toString())
             clipboard.setPrimaryClip(clip)
-            Toast.makeText(this, "Jumlah Transfer disalin: ${formatCurrencyDouble(transaction.amount)}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Jumlah Transfer disalin: ${formatCurrencyDouble(transaction.amount + 1000)}", Toast.LENGTH_SHORT).show()
         }
     }
 

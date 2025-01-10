@@ -29,7 +29,7 @@ class NabungVM @Inject constructor(
                     userId = userId ?: "",
                     amount = amount,
                     buktiTransfer = buktiTransfer,
-                    status = "Pending",
+                    status = "Menunggu Konfirmasi",
                     dateCreated = formatDate()
                 )
                 firebaseClient.addTransaction(newTransaction).let { transactionId ->
