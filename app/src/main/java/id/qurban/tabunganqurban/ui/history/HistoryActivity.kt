@@ -87,6 +87,7 @@ class HistoryActivity : AppCompatActivity() {
             navBack.setOnClickListener {
                 val intent = Intent(this@HistoryActivity, MainActivity::class.java)
                 startActivity(intent)
+                finish()
             }
             tvToolbarName.text = "Riwayat Menabung"
         }

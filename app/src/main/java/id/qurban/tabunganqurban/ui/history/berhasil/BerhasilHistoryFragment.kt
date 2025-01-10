@@ -1,5 +1,6 @@
 package id.qurban.tabunganqurban.ui.history.berhasil
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import id.qurban.tabunganqurban.R
 import id.qurban.tabunganqurban.adapter.HistoryAdapter
 import id.qurban.tabunganqurban.databinding.FragmentBerhasilHistoryBinding
+import id.qurban.tabunganqurban.ui.detail.berhasil.DetailBerhasilNabungActivity
+import id.qurban.tabunganqurban.ui.detail.mengecek.DetailMengecekNabungActivity
+import id.qurban.tabunganqurban.ui.detail.waiting.DetailWaitingNabungActivity
 import id.qurban.tabunganqurban.ui.history.HistoryVM
 import id.qurban.tabunganqurban.utils.Resource
 import kotlinx.coroutines.flow.collectLatest
@@ -37,8 +41,22 @@ class BerhasilHistoryFragment : Fragment() {
 
         observeHistory()
         setupRvPendingHistory()
+        handleTransactionListener()
 
         historyVM.fetchTransactionByStatus("Berhasil")
+    }
+
+    private fun handleTransactionListener() {
+        historyAdapter.setOnItemClickListener { transaction ->
+            when (transaction.status.lowercase()) {
+                "berhasil" -> {
+                    val intent = Intent(requireContext(), DetailBerhasilNabungActivity::class.java)
+                    intent.putExtra("transaction", transaction)
+                    startActivity(intent)
+                    requireActivity().finish()
+                }
+            }
+        }
     }
 
     private fun observeHistory() {

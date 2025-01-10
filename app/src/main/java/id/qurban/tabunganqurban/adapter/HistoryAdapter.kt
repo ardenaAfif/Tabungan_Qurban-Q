@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import id.qurban.tabunganqurban.R
 import id.qurban.tabunganqurban.data.Transaction
 import id.qurban.tabunganqurban.databinding.ItemTransactionHistoryBinding
+import id.qurban.tabunganqurban.ui.detail.berhasil.DetailBerhasilNabungActivity
 import id.qurban.tabunganqurban.ui.detail.mengecek.DetailMengecekNabungActivity
 import id.qurban.tabunganqurban.ui.detail.waiting.DetailWaitingNabungActivity
 import id.qurban.tabunganqurban.utils.FormatHelper.formatCurrencyDouble
@@ -29,6 +30,12 @@ class HistoryAdapter(private val context: Context) :
 
     val differ = AsyncListDiffer(this, diffCallback)
 
+    private var onItemClickListener: ((Transaction) -> Unit)? = null
+
+    fun setOnItemClickListener(listener: (Transaction) -> Unit) {
+        onItemClickListener = listener
+    }
+
     inner class HistoryViewHolder(private val binding: ItemTransactionHistoryBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(transaction: Transaction) {
@@ -46,18 +53,7 @@ class HistoryAdapter(private val context: Context) :
                 }
 
                 root.setOnClickListener {
-                    when(transaction.status.lowercase()) {
-                        "menunggu konfirmasi" -> {
-                            val intent = Intent(context, DetailWaitingNabungActivity::class.java)
-                            intent.putExtra("transaction", transaction)
-                            context.startActivity(intent)
-                        }
-                        "mengecek" -> {
-                            val intent = Intent(context, DetailMengecekNabungActivity::class.java)
-                            intent.putExtra("transaction", transaction)
-                            context.startActivity(intent)
-                        }
-                    }
+                    onItemClickListener?.invoke(transaction)
                 }
             }
         }

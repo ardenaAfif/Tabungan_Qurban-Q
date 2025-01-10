@@ -164,6 +164,7 @@ class DetailWaitingNabungActivity : AppCompatActivity() {
             navBack.setOnClickListener {
                 val intent = Intent(this@DetailWaitingNabungActivity, HistoryActivity::class.java)
                 startActivity(intent)
+                finish()
             }
             navBack.setImageDrawable(ContextCompat.getDrawable(this@DetailWaitingNabungActivity, R.drawable.ic_close))
             tvToolbarName.text = "Transfer Sekarang"

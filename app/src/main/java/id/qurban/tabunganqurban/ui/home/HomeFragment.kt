@@ -81,7 +81,6 @@ class HomeFragment : Fragment() {
             menuNabung.setOnClickListener {
                 Intent(requireContext(), NabungAmountActivity::class.java).also {
                     startActivity(it)
-                    onDestroy()
                 }
             }
 
