@@ -217,7 +217,7 @@
                         android:textSize="14sp" />
 
                     <ImageView
-                        android:id="@+id/ivPreviewBukiTransfer"
+                        android:id="@+id/ivPreviewBukiTransferCek"
                         android:layout_width="100dp"
                         android:layout_height="130dp"
                         android:gravity="end"

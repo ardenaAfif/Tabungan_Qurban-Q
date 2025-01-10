@@ -10,17 +10,24 @@ import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 import dagger.hilt.android.AndroidEntryPoint
 import id.qurban.tabunganqurban.R
 import id.qurban.tabunganqurban.data.Transaction
 import id.qurban.tabunganqurban.databinding.ActivityDetailWaitingNabungBinding
 import id.qurban.tabunganqurban.ui.MainActivity
+import id.qurban.tabunganqurban.ui.detail.mengecek.DetailMengecekNabungActivity
 import id.qurban.tabunganqurban.ui.history.HistoryActivity
 import id.qurban.tabunganqurban.ui.nabung.NabungVM
 import id.qurban.tabunganqurban.ui.profile.ProfileViewModel
@@ -101,9 +108,12 @@ class DetailWaitingNabungActivity : AppCompatActivity() {
             val bottomSheet = bottomSheetDialog?.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
             bottomSheet?.background = ContextCompat.getDrawable(this, R.drawable.bg_bottom_sheet)
 
+            bottomSheet?.elevation = 0f
+
             val btnUpload = view.findViewById<LinearLayout>(R.id.btnUploadBukti)
             val ivPreview = view.findViewById<ImageView>(R.id.ivPreviewBukiTransfer)
             val btnLanjutkan = view.findViewById<Button>(R.id.btnLanjutkan)
+            val pbTransfer = view.findViewById<ProgressBar>(R.id.pbTransfer)
 
             // Handle klik pada tombol upload
             btnUpload.setOnClickListener {
@@ -112,8 +122,13 @@ class DetailWaitingNabungActivity : AppCompatActivity() {
 
             // Handle tombol lanjutkan
             btnLanjutkan.setOnClickListener {
-                Toast.makeText(this, "Lanjutkan diklik", Toast.LENGTH_SHORT).show()
-                bottomSheetDialog?.dismiss()
+                if (selectedImageUri == null) {
+                    Toast.makeText(this, "Silakan upload bukti transfer dahulu", Toast.LENGTH_SHORT).show()
+                } else {
+                    btnLanjutkan.visibility = View.GONE
+                    pbTransfer.visibility = View.VISIBLE
+                    uploadImageToFirebaseStorage()
+                }
             }
         }
 
@@ -145,16 +160,46 @@ class DetailWaitingNabungActivity : AppCompatActivity() {
             if (imageUri != null) {
                 // Simpan URI gambar yang dipilih
                 selectedImageUri = imageUri
-                Toast.makeText(this, "Gambar berhasil di-upload", Toast.LENGTH_SHORT).show()
 
                 // Perbarui ImageView dalam dialog jika dialog terbuka
                 val ivPreview = bottomSheetDialog?.findViewById<ImageView>(R.id.ivPreviewBukiTransfer)
                 if (ivPreview != null) {
                     ivPreview.visibility = View.VISIBLE
-                    ivPreview.setImageURI(selectedImageUri)
+                    Glide.with(this@DetailWaitingNabungActivity)
+                        .load(selectedImageUri)
+                        .apply(RequestOptions.bitmapTransform(RoundedCorners(21)))
+                        .into(ivPreview)
                 }
             } else {
                 Toast.makeText(this, "Tidak ada gambar yang dipilih", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun uploadImageToFirebaseStorage() {
+        selectedImageUri?.let { uri ->
+            val storageRef = FirebaseStorage.getInstance().reference
+            val transactionId = transaction.transactionId
+            val imageRef = storageRef.child("buktiTransaksi/$transactionId.jpg")
+
+            val uploadTask = imageRef.putFile(uri)
+
+            uploadTask.addOnSuccessListener { taskSnapshot ->
+                // Mendapatkan URL gambar yang diunggah
+                imageRef.downloadUrl.addOnSuccessListener { imageUrl ->
+                    // Simpan URL gambar ke Firestore
+                    nabungViewModel.updateTransaction(transactionId, imageUrl.toString())
+                    Toast.makeText(this, "Gambar berhasil diunggah", Toast.LENGTH_SHORT).show()
+                    bottomSheetDialog?.dismiss()
+                    val intent = Intent(this@DetailWaitingNabungActivity, DetailMengecekNabungActivity::class.java)
+                    intent.putExtra("transaction", transaction)
+                    startActivity(intent)
+                    finish()
+                }.addOnFailureListener { exception ->
+                    Toast.makeText(this, "Gagal mendapatkan URL gambar", Toast.LENGTH_SHORT).show()
+                }
+            }.addOnFailureListener { exception ->
+                Toast.makeText(this, "Gagal mengunggah gambar", Toast.LENGTH_SHORT).show()
             }
         }
     }

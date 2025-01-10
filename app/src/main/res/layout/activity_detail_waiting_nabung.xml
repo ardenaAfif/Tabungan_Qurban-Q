@@ -43,6 +43,7 @@
         android:layout_marginTop="14dp"
         android:layout_marginEnd="16dp"
         app:cardCornerRadius="10dp"
+        app:cardElevation="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvPerintahTf">
@@ -298,9 +299,9 @@
                 android:fontFamily="@font/satoshi_medium"
                 android:gravity="end"
                 android:letterSpacing=".1"
-                tools:text="Rp 120.000"
                 android:textColor="@color/black"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                tools:text="Rp 120.000" />
         </LinearLayout>
 
         <LinearLayout
@@ -337,6 +338,7 @@
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:elevation="6dp"
+        app:cardElevation="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -358,5 +360,28 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
+<!--    <View-->
+<!--        android:id="@+id/loadingBackground"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:background="#80000000"-->
+<!--        android:visibility="gone"-->
+<!--        android:elevation="10dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--    <ProgressBar-->
+<!--        android:id="@+id/pbTransfer"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:visibility="visible"-->
+<!--        android:elevation="10dp"-->
+<!--        android:indeterminateTint="@color/primary"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/cardView"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/toolbar" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

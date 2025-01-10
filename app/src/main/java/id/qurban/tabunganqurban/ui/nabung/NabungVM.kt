@@ -10,6 +10,7 @@ import id.qurban.tabunganqurban.utils.FormatHelper.formatDate
 import id.qurban.tabunganqurban.utils.Resource
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -37,6 +38,24 @@ class NabungVM @Inject constructor(
                 }
             } catch (e: Exception) {
                 _transaction.value = Resource.Error(e.message.toString())
+            }
+        }
+    }
+
+    fun updateTransaction(transactionId: String, imageUrl: String) {
+        viewModelScope.launch {
+            try {
+                firebaseClient.updateTransaction(transactionId, imageUrl)
+            } catch (e: Exception) {
+                _transaction.value = Resource.Error(e.message.toString())
+            }
+        }
+    }
+
+    fun getTransaction(transactionId: String) {
+        viewModelScope.launch {
+            firebaseClient.getTransaction(transactionId).collectLatest { resource ->
+                _transaction.value = resource
             }
         }
     }

@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:background="@drawable/bg_bottom_sheet"
+    android:elevation="0dp"
     android:padding="16dp">
 
     <View
@@ -72,13 +73,27 @@
     </LinearLayout>
 
     <!-- Tombol Lanjutkan -->
-    <Button
-        android:id="@+id/btnLanjutkan"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:backgroundTint="@color/primary"
-        android:text="Lanjutkan"
-        android:textColor="@color/white"
-        android:textSize="14sp" />
+        android:layout_marginTop="16dp">
+
+        <Button
+            android:id="@+id/btnLanjutkan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/primary"
+            android:text="Lanjutkan"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
+        <ProgressBar
+            android:id="@+id/pbTransfer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:elevation="10dp"
+            android:indeterminateTint="@color/primary" />
+    </FrameLayout>
 </LinearLayout>

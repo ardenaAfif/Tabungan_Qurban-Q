@@ -53,6 +53,13 @@ android {
 
 dependencies {
 
+    // SwipeRefresh
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+
+    // Glide
+    implementation("com.github.bumptech.glide:glide:4.15.0")
+    annotationProcessor("com.github.bumptech.glide:compiler:4.13.0")
+
     // ViewPager2
     implementation(libs.viewpager2)
 
@@ -62,6 +69,7 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore-ktx:25.1.1")
     implementation("com.google.firebase:firebase-auth-ktx:23.1.0")
     implementation("com.google.android.gms:play-services-auth:21.3.0")
+    implementation(libs.firebase.storage)
 
     //Dagger hilt
     implementation("com.google.dagger:hilt-android:2.50")

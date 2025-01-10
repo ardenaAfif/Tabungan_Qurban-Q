@@ -13,6 +13,8 @@ navigationFragmentKtx = "2.6.0"
 viewpager2 = "1.1.0"
 identityAndroidLegacy = "202411.1"
 viewpager2Version = "1.1.0"
+googleGmsGoogleServices = "4.4.2"
+firebaseStorage = "21.0.1"
 
 
 [libraries]
@@ -30,9 +32,11 @@ androidx-navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx",
 androidx-viewpager2 = { module = "androidx.viewpager2:viewpager2", version.ref = "viewpager2" }
 identity-android-legacy = { group = "com.android.identity", name = "identity-android-legacy", version.ref = "identityAndroidLegacy" }
 viewpager2 = { module = "androidx.viewpager2:viewpager2", version.ref = "viewpager2Version" }
+firebase-storage = { group = "com.google.firebase", name = "firebase-storage", version.ref = "firebaseStorage" }
 
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+google-gms-google-services = { id = "com.google.gms.google-services", version.ref = "googleGmsGoogleServices" }
 
