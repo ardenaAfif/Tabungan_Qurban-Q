@@ -62,7 +62,7 @@ class DetailWaitingNabungActivity : AppCompatActivity() {
     private fun setupTransactionDetails() {
         binding.apply {
             tvJumlahTransfer.text = formatCurrencyDouble(transaction.amount + 1000.0)
-            tvInfoIdTransaksi.text = "ID#${transaction.transactionId.takeLast(5)}"
+            tvInfoIdTransaksi.text = getString(R.string.id_transaction, transaction.transactionId.takeLast(5))
             tvInfoJumlahNabung.text = formatCurrencyDouble(transaction.amount)
         }
     }
@@ -162,9 +162,7 @@ class DetailWaitingNabungActivity : AppCompatActivity() {
     private fun customToolbar() {
         binding.toolbar.apply {
             navBack.setOnClickListener {
-                val intent = Intent(this@DetailWaitingNabungActivity, HistoryActivity::class.java)
-                startActivity(intent)
-                finish()
+                onBackPressed()
             }
             navBack.setImageDrawable(ContextCompat.getDrawable(this@DetailWaitingNabungActivity, R.drawable.ic_close))
             tvToolbarName.text = "Transfer Sekarang"
@@ -193,16 +191,6 @@ class DetailWaitingNabungActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        navigateToHome()
-    }
-
-    private fun navigateToHome() {
-        val intent = Intent(this@DetailWaitingNabungActivity, HistoryActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
-            putExtra("navigateTo", "HistoryActivity")
-        }
-        startActivity(intent)
-        finish()
     }
 
     companion object {

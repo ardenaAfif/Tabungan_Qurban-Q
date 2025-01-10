@@ -42,7 +42,7 @@ class DetailBerhasilNabungActivity : AppCompatActivity() {
     private fun setupTransactionDetails() {
         binding.apply {
             tvInfoJumlahTransfer.text = formatCurrencyDouble(transaction.amount)
-            tvIdTransaksiBerhasil.text = "ID#${transaction.transactionId.takeLast(5)}"
+            tvIdTransaksiBerhasil.text = getString(R.string.id_transaction, transaction.transactionId.takeLast(5))
             tvIdTransaksiBerhasilFull.text = transaction.transactionId.takeLast(10)
             tvInfoTanggalTransfer.text = transaction.dateCreated
         }

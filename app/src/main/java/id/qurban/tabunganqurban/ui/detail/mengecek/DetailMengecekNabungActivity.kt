@@ -53,7 +53,7 @@ class DetailMengecekNabungActivity : AppCompatActivity() {
         val runnable = object : Runnable {
             override fun run() {
                 animateDrawableChange()
-                handler.postDelayed(this, 2000)
+                handler.postDelayed(this, 1500)
             }
         }
         handler.post(runnable)
@@ -73,7 +73,7 @@ class DetailMengecekNabungActivity : AppCompatActivity() {
     private fun setupTransactionDetails() {
         binding.apply {
             tvInfoJumlahTransfer.text = formatCurrencyDouble(transaction.amount + 1000.0)
-            tvIdTransaksiMengecek.text = "ID#${transaction.transactionId.takeLast(5)}"
+            tvIdTransaksiMengecek.text = getString(R.string.id_transaction, transaction.transactionId.takeLast(5))
             tvInfoTanggalTransfer.text = transaction.dateCreated
         }
     }

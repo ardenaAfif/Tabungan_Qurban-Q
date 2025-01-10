@@ -40,7 +40,7 @@ class HistoryAdapter(private val context: Context) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(transaction: Transaction) {
             binding.apply {
-                tvIdTransaksi.text = context.getString(R.string.id_transaction, transaction.transactionId)
+                tvIdTransaksi.text = context.getString(R.string.id_transaction, transaction.transactionId.takeLast(10))
                 tvNominalTransaksi.text = formatCurrencyDouble(transaction.amount) // Format nominal
                 tvStatus.text = transaction.status
                 tvDateTransaksi.text = transaction.dateCreated // Tanggal sesuai format WIB

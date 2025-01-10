@@ -52,19 +52,16 @@ class AllHistoryFragment : Fragment() {
                     val intent = Intent(requireContext(), DetailWaitingNabungActivity::class.java)
                     intent.putExtra("transaction", transaction)
                     startActivity(intent)
-                    requireActivity().finish()
                 }
                 "mengecek" -> {
                     val intent = Intent(requireContext(), DetailMengecekNabungActivity::class.java)
                     intent.putExtra("transaction", transaction)
                     startActivity(intent)
-                    requireActivity().finish()
                 }
                 "berhasil" -> {
                     val intent = Intent(requireContext(), DetailBerhasilNabungActivity::class.java)
                     intent.putExtra("transaction", transaction)
                     startActivity(intent)
-                    requireActivity().finish()
                 }
             }
         }

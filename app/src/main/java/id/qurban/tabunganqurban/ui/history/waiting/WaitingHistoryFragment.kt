@@ -53,7 +53,6 @@ class WaitingHistoryFragment : Fragment() {
                     val intent = Intent(requireContext(), DetailWaitingNabungActivity::class.java)
                     intent.putExtra("transaction", transaction)
                     startActivity(intent)
-                    requireActivity().finish()
                 }
             }
         }
