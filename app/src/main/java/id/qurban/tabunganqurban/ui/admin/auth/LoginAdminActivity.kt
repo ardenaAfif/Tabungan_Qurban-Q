@@ -10,6 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import id.qurban.tabunganqurban.databinding.ActivityLoginAdminBinding
 import id.qurban.tabunganqurban.ui.admin.history.AdminHistoryActivity
+import id.qurban.tabunganqurban.ui.auth.login.LoginActivity
 import id.qurban.tabunganqurban.ui.auth.login.LoginViewModel
 import id.qurban.tabunganqurban.utils.Resource
 import kotlinx.coroutines.flow.launchIn
@@ -66,16 +67,24 @@ class LoginAdminActivity : AppCompatActivity() {
     }
 
     private fun setupLoginButton() {
-        binding.loginAdminButton.setOnClickListener {
-            val email = binding.emailEditTextAdmin.text.toString().trim()
-            val password = binding.passwordEditTextAdmin.text.toString().trim()
+        binding.apply {
+            loginAdminButton.setOnClickListener {
+                val email = binding.emailEditTextAdmin.text.toString().trim()
+                val password = binding.passwordEditTextAdmin.text.toString().trim()
 
-            if (email.isEmpty() || password.isEmpty()) {
-                Toast.makeText(this, "Email dan password harus diisi", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
+                if (email.isEmpty() || password.isEmpty()) {
+                    Toast.makeText(this@LoginAdminActivity, "Email dan password harus diisi", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+
+                loginViewModel.loginUser(email, password)
             }
-
-            loginViewModel.loginUser(email, password)
+            btnBack.setOnClickListener {
+                Intent(this@LoginAdminActivity, LoginActivity::class.java).also {
+                    startActivity(it)
+                    finish()
+                }
+            }
         }
     }
 

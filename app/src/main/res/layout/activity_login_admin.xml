@@ -77,7 +77,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="21dp"
-                    android:layout_marginTop="26dp"
+                    android:layout_marginTop="16dp"
                     android:fontFamily="@font/satoshi_medium"
                     android:text="Password"
                     android:textSize="16sp" />
@@ -93,31 +93,45 @@
                     android:inputType="textPassword"
                     android:padding="12dp" />
 
-                <FrameLayout
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp">
+                    android:orientation="horizontal"
+                    android:layout_marginHorizontal="21dp"
+                    android:layout_marginTop="21dp">
 
-                    <ProgressBar
-                        android:id="@+id/progresBarRegister"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:progressTint="@color/primary" />
+                    <ImageView
+                        android:id="@+id/btnBack"
+                        android:layout_width="0dp"
+                        android:layout_weight=".2"
+                        android:layout_height="50dp"
+                        android:src="@drawable/ic_back_rounded"/>
 
-                    <Button
-                        android:id="@+id/loginAdminButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="32dp"
-                        android:backgroundTint="@color/primary"
-                        android:padding="12dp"
-                        android:text="@string/login"
-                        android:textColor="@color/white"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/confirmPasswordEditText" />
-                </FrameLayout>
+                    <FrameLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content">
+
+                        <ProgressBar
+                            android:id="@+id/progresBarRegister"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:progressTint="@color/primary" />
+
+                        <Button
+                            android:id="@+id/loginAdminButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@color/primary"
+                            android:padding="12dp"
+                            android:text="@string/login"
+                            android:textColor="@color/white"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/confirmPasswordEditText" />
+                    </FrameLayout>
+                </LinearLayout>
 
 
             </LinearLayout>

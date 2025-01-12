@@ -108,7 +108,6 @@ class LoginActivity : AppCompatActivity() {
         Intent(this, LoginAdminActivity::class.java).also {
             it.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(it)
-            finish()
         }
     }
 
@@ -137,8 +136,8 @@ class LoginActivity : AppCompatActivity() {
     private fun gotoRegister() {
         binding.notRegisteredText.setOnClickListener {
             Intent(this, RegisterActivity::class.java).also {
+                it.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(it)
-                finish()
             }
         }
     }
