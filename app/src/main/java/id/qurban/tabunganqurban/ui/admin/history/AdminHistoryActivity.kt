@@ -1,5 +1,6 @@
 package id.qurban.tabunganqurban.ui.admin.history
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import id.qurban.tabunganqurban.adapter.HistoryAdapter
 import id.qurban.tabunganqurban.databinding.ActivityAdminHistoryBinding
+import id.qurban.tabunganqurban.ui.admin.detail.DetailTransaksiAdminActivity
 import id.qurban.tabunganqurban.utils.Resource
 import kotlinx.coroutines.flow.collectLatest
 
@@ -26,6 +28,16 @@ class AdminHistoryActivity : AppCompatActivity() {
 
         setupRvHistory()
         observeHistory()
+        handleTransactionListener()
+    }
+
+    private fun handleTransactionListener() {
+        historyAdapter.setOnItemClickListener {
+            val intent = Intent(this, DetailTransaksiAdminActivity::class.java)
+            intent.putExtra("transaction", it)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
+            startActivity(intent)
+        }
     }
 
     private fun observeHistory() {

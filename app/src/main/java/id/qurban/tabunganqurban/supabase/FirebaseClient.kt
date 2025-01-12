@@ -3,6 +3,7 @@ package id.qurban.tabunganqurban.supabase
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
 import id.qurban.tabunganqurban.data.Transaction
 import id.qurban.tabunganqurban.data.User
@@ -52,6 +53,24 @@ class FirebaseClient {
         }
     }
 
+    fun updateTransactionValidated(transactionId: String, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
+        val transactionRef = firestore.collectionGroup("history")
+            .whereEqualTo("transactionId", transactionId)
+
+        transactionRef.get()
+            .addOnSuccessListener { querySnapshot ->
+                if (querySnapshot.documents.isNotEmpty()) {
+                    val document = querySnapshot.documents[0]
+                    document.reference.update("status", "Berhasil")
+                        .addOnSuccessListener { onSuccess() }
+                        .addOnFailureListener { onFailure(it) }
+                } else {
+                    onFailure(Exception("Transaksi tidak ditemukan"))
+                }
+            }
+            .addOnFailureListener { onFailure(it) }
+    }
+
     fun getTransaction(transactionId: String): Flow<Resource<Transaction>> = callbackFlow {
         val userId = auth.uid ?: throw IllegalStateException("User ID is Null")
         val transactionRef = firestore.collection("users").document(userId)
@@ -85,6 +104,8 @@ class FirebaseClient {
     fun getAllTransactions(): Flow<Resource<List<Transaction>>> = callbackFlow {
 
         val transactionRef = firestore.collectionGroup("history")
+            .orderBy("status", Query.Direction.DESCENDING)
+            .orderBy("dateCreated", Query.Direction.DESCENDING)
 
         val listenerRegistration = transactionRef.addSnapshotListener { snapshot, error ->
             if (error != null) {
@@ -239,9 +260,4 @@ class FirebaseClient {
                 listenerRegistration.remove()
             }
         }
-
-
-    suspend fun getAllHistoryFromUsers(): QuerySnapshot {
-        return firestore.collectionGroup("history").get().await()
-    }
 }

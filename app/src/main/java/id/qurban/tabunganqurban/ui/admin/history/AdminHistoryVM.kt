@@ -8,6 +8,7 @@ import id.qurban.tabunganqurban.supabase.FirebaseClient
 import id.qurban.tabunganqurban.utils.Resource
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -20,6 +21,9 @@ class AdminHistoryVM @Inject constructor(
     private val _allHistory = MutableStateFlow<Resource<List<Transaction>>>(Resource.Unspecified())
     val allHistory: StateFlow<Resource<List<Transaction>>> = _allHistory
 
+    private val _transactionUpdateStatus = MutableStateFlow<Resource<Unit>>(Resource.Unspecified())
+    val transactionUpdateStatus: StateFlow<Resource<Unit>> = _transactionUpdateStatus
+
     init {
         fetchAllTransaction()
     }
@@ -31,5 +35,18 @@ class AdminHistoryVM @Inject constructor(
                 _allHistory.emit(it)
             }
         }
+    }
+
+    fun updateTransactionValidated(transactionId: String) {
+
+        firebaseClient.updateTransactionValidated(
+            transactionId = transactionId,
+            onSuccess = {
+                _transactionUpdateStatus.value = Resource.Success(Unit)
+            },
+            onFailure = { exception ->
+                _transactionUpdateStatus.value = Resource.Error(exception.message ?: "Gagal memperbarui transaksi")
+            }
+        )
     }
 }
