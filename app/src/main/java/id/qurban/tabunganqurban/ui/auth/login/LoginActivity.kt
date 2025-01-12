@@ -1,27 +1,18 @@
 package id.qurban.tabunganqurban.ui.auth.login
 
-import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
-import id.qurban.tabunganqurban.R
 import id.qurban.tabunganqurban.ui.auth.register.RegisterActivity
 import id.qurban.tabunganqurban.databinding.ActivityLoginBinding
 import id.qurban.tabunganqurban.ui.MainActivity
-import id.qurban.tabunganqurban.ui.admin.AdminHistoryActivity
+import id.qurban.tabunganqurban.ui.admin.history.AdminHistoryActivity
 import id.qurban.tabunganqurban.ui.admin.auth.LoginAdminActivity
-import id.qurban.tabunganqurban.ui.history.HistoryActivity
-import id.qurban.tabunganqurban.ui.home.HomeFragment
 import id.qurban.tabunganqurban.utils.Resource
 import kotlinx.coroutines.launch
 

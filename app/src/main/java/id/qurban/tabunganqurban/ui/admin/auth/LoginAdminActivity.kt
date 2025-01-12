@@ -4,16 +4,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
-import id.qurban.tabunganqurban.R
 import id.qurban.tabunganqurban.databinding.ActivityLoginAdminBinding
-import id.qurban.tabunganqurban.ui.admin.AdminHistoryActivity
+import id.qurban.tabunganqurban.ui.admin.history.AdminHistoryActivity
 import id.qurban.tabunganqurban.ui.auth.login.LoginViewModel
 import id.qurban.tabunganqurban.utils.Resource
 import kotlinx.coroutines.flow.launchIn

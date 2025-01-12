@@ -27,7 +27,7 @@
             android:name=".ui.detail.berhasil.DetailBerhasilNabungActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.admin.AdminHistoryActivity"
+            android:name=".ui.admin.history.AdminHistoryActivity"
             android:exported="false" />
         <activity
             android:name=".ui.profile.kelola.KelolaAkunActivity"

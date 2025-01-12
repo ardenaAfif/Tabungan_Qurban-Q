@@ -83,9 +83,8 @@ class FirebaseClient {
     }
 
     fun getAllTransactions(): Flow<Resource<List<Transaction>>> = callbackFlow {
-        val userId = auth.uid ?: throw IllegalStateException("User ID is Null")
-        val transactionRef = firestore.collection("users").document(userId)
-            .collection("history")
+
+        val transactionRef = firestore.collectionGroup("history")
 
         val listenerRegistration = transactionRef.addSnapshotListener { snapshot, error ->
             if (error != null) {
