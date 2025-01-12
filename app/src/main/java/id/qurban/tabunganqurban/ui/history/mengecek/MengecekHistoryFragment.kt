@@ -45,12 +45,14 @@ class MengecekHistoryFragment : Fragment() {
         historyVM.fetchTransactionByStatus("Mengecek")
     }
 
+
     private fun handleTransactionListener() {
         historyAdapter.setOnItemClickListener { transaction ->
             when (transaction.status.lowercase()) {
                 "mengecek" -> {
                     val intent = Intent(requireContext(), DetailMengecekNabungActivity::class.java)
                     intent.putExtra("transaction", transaction)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
                     startActivity(intent)
                 }
             }

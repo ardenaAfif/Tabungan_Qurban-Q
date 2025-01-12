@@ -47,23 +47,15 @@ class AllHistoryFragment : Fragment() {
 
     private fun handleTransactionListener() {
         historyAdapter.setOnItemClickListener { transaction ->
-            when (transaction.status.lowercase()) {
-                "menunggu konfirmasi" -> {
-                    val intent = Intent(requireContext(), DetailWaitingNabungActivity::class.java)
-                    intent.putExtra("transaction", transaction)
-                    startActivity(intent)
-                }
-                "mengecek" -> {
-                    val intent = Intent(requireContext(), DetailMengecekNabungActivity::class.java)
-                    intent.putExtra("transaction", transaction)
-                    startActivity(intent)
-                }
-                "berhasil" -> {
-                    val intent = Intent(requireContext(), DetailBerhasilNabungActivity::class.java)
-                    intent.putExtra("transaction", transaction)
-                    startActivity(intent)
-                }
-            }
+            val intent = Intent(requireContext(), when (transaction.status.lowercase()) {
+                "menunggu konfirmasi" -> DetailWaitingNabungActivity::class.java
+                "mengecek" -> DetailMengecekNabungActivity::class.java
+                "berhasil" -> DetailBerhasilNabungActivity::class.java
+                else -> return@setOnItemClickListener
+            })
+            intent.putExtra("transaction", transaction)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
+            startActivity(intent)
         }
     }
 

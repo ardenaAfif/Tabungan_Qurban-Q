@@ -82,6 +82,31 @@ class FirebaseClient {
         }
     }
 
+    fun getAllTransactions(): Flow<Resource<List<Transaction>>> = callbackFlow {
+        val userId = auth.uid ?: throw IllegalStateException("User ID is Null")
+        val transactionRef = firestore.collection("users").document(userId)
+            .collection("history")
+
+        val listenerRegistration = transactionRef.addSnapshotListener { snapshot, error ->
+            if (error != null) {
+                trySend(Resource.Error(error.message.toString()))
+                return@addSnapshotListener
+            }
+
+            if (snapshot == null) {
+                trySend(Resource.Error("Dokumen tidak ditemukan"))
+                return@addSnapshotListener
+            }
+
+            val transactions = snapshot.toObjects(Transaction::class.java)
+            trySend(Resource.Success(transactions))
+        }
+
+        awaitClose {
+            listenerRegistration.remove()
+        }
+    }
+
     suspend fun getUserDetails(): User? {
         val userId = auth.currentUser?.uid ?: return null
         val userSnapshot = FirebaseFirestore.getInstance()

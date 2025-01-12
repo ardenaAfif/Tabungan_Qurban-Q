@@ -22,6 +22,9 @@ class NabungVM @Inject constructor(
     private val _transaction = MutableStateFlow<Resource<Transaction>>(Resource.Unspecified())
     val transaction = _transaction.asStateFlow()
 
+    private val _allTransactions = MutableStateFlow<Resource<List<Transaction>>>(Resource.Unspecified())
+    val allTransactions = _allTransactions.asStateFlow()
+
     fun addAmountTransaction(amount: Double, buktiTransfer: String) {
         viewModelScope.launch {
             try {
@@ -56,6 +59,14 @@ class NabungVM @Inject constructor(
         viewModelScope.launch {
             firebaseClient.getTransaction(transactionId).collectLatest { resource ->
                 _transaction.value = resource
+            }
+        }
+    }
+
+    fun getAllTransactions() {
+        viewModelScope.launch {
+            firebaseClient.getAllTransactions().collectLatest { resource ->
+                _allTransactions.value = resource
             }
         }
     }

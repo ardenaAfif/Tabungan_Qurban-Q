@@ -1,13 +1,23 @@
 package id.qurban.tabunganqurban.ui.detail.berhasil
 
+import android.Manifest
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.drawable.TransitionDrawable
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
@@ -16,6 +26,7 @@ import id.qurban.tabunganqurban.data.Transaction
 import id.qurban.tabunganqurban.databinding.ActivityDetailBerhasilNabungBinding
 import id.qurban.tabunganqurban.databinding.ActivityDetailWaitingNabungBinding
 import id.qurban.tabunganqurban.ui.history.HistoryActivity
+import id.qurban.tabunganqurban.ui.nabung.NabungVM
 import id.qurban.tabunganqurban.ui.profile.ProfileViewModel
 import id.qurban.tabunganqurban.utils.FormatHelper.formatCurrencyDouble
 import id.qurban.tabunganqurban.utils.FormatHelper.toCamelCase
@@ -26,6 +37,7 @@ import kotlinx.coroutines.flow.collectLatest
 class DetailBerhasilNabungActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailBerhasilNabungBinding
+    private val nabungViewModel: NabungVM by viewModels()
 
     private lateinit var transaction: Transaction
     private val profileViewModel: ProfileViewModel by viewModels()

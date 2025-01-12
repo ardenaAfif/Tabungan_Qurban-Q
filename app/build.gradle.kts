@@ -58,6 +58,7 @@ dependencies {
 
     // Glide
     implementation("com.github.bumptech.glide:glide:4.15.0")
+    implementation(libs.androidx.ui.android)
     annotationProcessor("com.github.bumptech.glide:compiler:4.13.0")
 
     // ViewPager2

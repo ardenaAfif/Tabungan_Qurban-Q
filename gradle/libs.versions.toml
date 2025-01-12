@@ -15,6 +15,7 @@ identityAndroidLegacy = "202411.1"
 viewpager2Version = "1.1.0"
 googleGmsGoogleServices = "4.4.2"
 firebaseStorage = "21.0.1"
+uiAndroid = "1.7.6"
 
 
 [libraries]
@@ -33,6 +34,7 @@ androidx-viewpager2 = { module = "androidx.viewpager2:viewpager2", version.ref =
 identity-android-legacy = { group = "com.android.identity", name = "identity-android-legacy", version.ref = "identityAndroidLegacy" }
 viewpager2 = { module = "androidx.viewpager2:viewpager2", version.ref = "viewpager2Version" }
 firebase-storage = { group = "com.google.firebase", name = "firebase-storage", version.ref = "firebaseStorage" }
+androidx-ui-android = { group = "androidx.compose.ui", name = "ui-android", version.ref = "uiAndroid" }
 
 
 [plugins]

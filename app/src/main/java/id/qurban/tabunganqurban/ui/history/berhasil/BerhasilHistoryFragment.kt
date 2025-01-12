@@ -52,6 +52,7 @@ class BerhasilHistoryFragment : Fragment() {
                 "berhasil" -> {
                     val intent = Intent(requireContext(), DetailBerhasilNabungActivity::class.java)
                     intent.putExtra("transaction", transaction)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
                     startActivity(intent)
                 }
             }

@@ -1,10 +1,15 @@
 package id.qurban.tabunganqurban.ui.detail.mengecek
 
+import android.app.Dialog
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.TransitionDrawable
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.view.WindowManager
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -56,6 +61,34 @@ class DetailMengecekNabungActivity : AppCompatActivity() {
         btnBottomListener()
         getUser()
         updateDataAsync()
+
+        binding.ivPreviewBukiTransferCek.setOnClickListener {
+            showImagePreviewDialog(transaction.buktiTransfer)
+        }
+    }
+
+    private fun showImagePreviewDialog(imageUrl: String) {
+        val dialog = Dialog(this)
+        dialog.setContentView(R.layout.dialog_bukti_tf_preview)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.window?.setLayout(
+            WindowManager.LayoutParams.WRAP_CONTENT,
+            WindowManager.LayoutParams.MATCH_PARENT
+        )
+
+        val ivImagePreview: ImageView = dialog.findViewById(R.id.ivImagePreview)
+        val ivClose: ImageView = dialog.findViewById(R.id.ivClose)
+
+        Glide.with(this)
+            .load(imageUrl)
+            .apply(RequestOptions.bitmapTransform(RoundedCorners(32)))
+            .into(ivImagePreview)
+
+        ivClose.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
     }
 
     private fun getUser() {
