@@ -1,8 +1,16 @@
 package id.qurban.tabunganqurban.ui.history
 
+import android.app.AlertDialog
+import android.app.Dialog
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.tabs.TabLayout
@@ -90,6 +98,27 @@ class HistoryActivity : AppCompatActivity() {
                 finish()
             }
             tvToolbarName.text = "Riwayat Menabung"
+
+            infoStatus.visibility = View.VISIBLE
+            infoStatus.setOnClickListener {
+                showInfoDialog()
+            }
         }
+    }
+
+    private fun showInfoDialog() {
+        val dialog = Dialog(this)
+        dialog.setContentView(R.layout.dialog_info_status)
+
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+
+        val btnTutup: TextView = dialog.findViewById(R.id.btnTutup)
+
+        btnTutup.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
     }
 }

@@ -7,9 +7,9 @@
 
     <ImageView
         android:id="@+id/nav_back"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:padding="11dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:padding="14dp"
         android:src="@drawable/ic_back"
         app:tint="@color/white" />
 
@@ -22,5 +22,16 @@
         android:fontFamily="@font/satoshi_bold"
         android:textColor="@color/white"
         android:textSize="16sp"/>
+
+    <ImageView
+        android:id="@+id/info_status"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:padding="11dp"
+        android:visibility="gone"
+        android:layout_marginEnd="8dp"
+        android:layout_gravity="end"
+        android:src="@drawable/ic_info"
+        app:tint="@color/white" />
 
 </androidx.appcompat.widget.Toolbar>

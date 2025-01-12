@@ -27,7 +27,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Tidak ada riwayat transaksi menunggu konfirmasi"
+            android:text="Tidak ada riwayat transaksi yang sedang dicek"
             android:textSize="18sp"
             android:gravity="center"
             android:fontFamily="@font/satoshi_medium"
