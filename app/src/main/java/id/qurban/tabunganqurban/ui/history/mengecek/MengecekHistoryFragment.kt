@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import id.qurban.tabunganqurban.adapter.HistoryAdapter
+import id.qurban.tabunganqurban.databinding.FragmentMengecekHistoryBinding
 import id.qurban.tabunganqurban.databinding.FragmentWaitingHistoryBinding
 import id.qurban.tabunganqurban.ui.detail.berhasil.DetailBerhasilNabungActivity
 import id.qurban.tabunganqurban.ui.detail.mengecek.DetailMengecekNabungActivity
@@ -23,7 +24,7 @@ import kotlinx.coroutines.flow.collectLatest
 @AndroidEntryPoint
 class MengecekHistoryFragment : Fragment() {
 
-    private lateinit var binding: FragmentWaitingHistoryBinding
+    private lateinit var binding: FragmentMengecekHistoryBinding
     private lateinit var historyAdapter: HistoryAdapter
     private val historyVM: HistoryVM by viewModels()
 
@@ -31,7 +32,7 @@ class MengecekHistoryFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentWaitingHistoryBinding.inflate(inflater, container, false)
+        binding = FragmentMengecekHistoryBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -67,7 +68,16 @@ class MengecekHistoryFragment : Fragment() {
                     }
 
                     is Resource.Success -> {
-                        historyAdapter.differ.submitList(resource.data)
+                        val transactions = resource.data ?: emptyList()
+                        binding.apply {
+                            if (transactions.isEmpty()) {
+                                layoutNoData.visibility = View.VISIBLE
+                                rvMengecekTransaction.visibility = View.GONE
+                            } else {
+                                layoutNoData.visibility = View.GONE
+                                historyAdapter.differ.submitList(resource.data)
+                            }
+                        }
                     }
 
                     is Resource.Error -> {
@@ -83,7 +93,7 @@ class MengecekHistoryFragment : Fragment() {
 
     private fun setupRvPendingHistory() {
         historyAdapter = HistoryAdapter(requireContext())
-        binding.rvWaitingTransaction.apply {
+        binding.rvMengecekTransaction.apply {
             adapter = historyAdapter
             layoutManager = LinearLayoutManager(requireContext())
         }

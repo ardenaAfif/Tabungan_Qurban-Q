@@ -67,7 +67,16 @@ class WaitingHistoryFragment : Fragment() {
                     }
 
                     is Resource.Success -> {
-                        historyAdapter.differ.submitList(resource.data)
+                        val transactions = resource.data ?: emptyList()
+                        binding.apply {
+                            if (transactions.isEmpty()) {
+                                layoutNoData.visibility = View.VISIBLE
+                                rvWaitingTransaction.visibility = View.GONE
+                            } else {
+                                layoutNoData.visibility = View.GONE
+                                historyAdapter.differ.submitList(resource.data)
+                            }
+                        }
                     }
 
                     is Resource.Error -> {

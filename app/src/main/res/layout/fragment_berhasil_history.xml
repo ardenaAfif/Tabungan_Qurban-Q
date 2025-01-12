@@ -4,12 +4,41 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F6F6F6"
     tools:context=".ui.history.berhasil.BerhasilHistoryFragment">
+
+    <LinearLayout
+        android:id="@+id/layoutNoData"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/no_data"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tidak ada riwayat transaksi berhasil"
+            android:textSize="18sp"
+            android:fontFamily="@font/satoshi_medium"
+            android:textColor="@color/black"
+            android:layout_marginTop="12dp"/>
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvAcceptedTransaction"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:gravity="center"
         android:paddingTop="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:listitem="@layout/item_transaction_history"
