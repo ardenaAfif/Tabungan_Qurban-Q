@@ -80,15 +80,6 @@
                     android:textColor="@color/darker_grey"
                     android:textSize="14sp"/>
 
-                <TextView
-                    android:id="@+id/profileSemester"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/satoshi_medium"
-                    tools:text="/ 7"
-                    android:textColor="@color/darker_grey"
-                    android:textSize="14sp"/>
-
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
@@ -242,13 +233,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:src="@drawable/pembatas" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cardTentang"
