@@ -18,6 +18,9 @@
         android:theme="@style/Theme.TabunganQurbanQ"
         tools:targetApi="31">
         <activity
+            android:name=".ui.admin.auth.LoginAdminActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.detail.mengecek.DetailMengecekNabungActivity"
             android:exported="false" />
         <activity

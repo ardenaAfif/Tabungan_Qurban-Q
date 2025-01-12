@@ -41,7 +41,12 @@ class LoginViewModel @Inject constructor(
 
         viewModelScope.launch {
             if (user != null) {
-                _navigate.emit(TABUNGAN_ACTIVITY) // Langsung ke halaman Home
+                val userDetails = firebaseClient.getUserDetails()
+                if (userDetails?.prodi == "Admin") {
+                    _navigate.emit(ADMIN_TABUNGAN)
+                } else {
+                    _navigate.emit(TABUNGAN_ACTIVITY)
+                }
             } else if (isButtonClicked) {
                 _navigate.emit(LOGIN_ACTIVITY) // Ke halaman Login
             } else {
@@ -57,14 +62,14 @@ class LoginViewModel @Inject constructor(
         firebaseAuth.signInWithEmailAndPassword(email, password)
             .addOnSuccessListener {
                 viewModelScope.launch {
-                    val user = firebaseClient.getUserDetails()
-                    Log.d(">>LoginVM", "User Details: $user")
-                    if (user?.prodi == "Admin") {
+                    val userDetails = firebaseClient.getUserDetails()
+                    Log.d(">>LoginVM", "User Details: $userDetails")
+                    if (userDetails?.prodi == "Admin") {
                         _navigate.emit(ADMIN_TABUNGAN)
+                        _login.emit(Resource.Success(it.user!!))
                     } else {
-                        _navigate.emit(TABUNGAN_ACTIVITY)
+                        _login.emit(Resource.Error("Anda tidak memiliki akses sebagai Admin"))
                     }
-                    _login.emit(Resource.Success(it.user!!))
                 }
             }
             .addOnFailureListener {

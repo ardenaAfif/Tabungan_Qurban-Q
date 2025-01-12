@@ -19,6 +19,7 @@ import id.qurban.tabunganqurban.ui.auth.register.RegisterActivity
 import id.qurban.tabunganqurban.databinding.ActivityLoginBinding
 import id.qurban.tabunganqurban.ui.MainActivity
 import id.qurban.tabunganqurban.ui.admin.AdminHistoryActivity
+import id.qurban.tabunganqurban.ui.admin.auth.LoginAdminActivity
 import id.qurban.tabunganqurban.ui.history.HistoryActivity
 import id.qurban.tabunganqurban.ui.home.HomeFragment
 import id.qurban.tabunganqurban.utils.Resource
@@ -48,15 +49,9 @@ class LoginActivity : AppCompatActivity() {
                     LoginViewModel.TABUNGAN_ACTIVITY -> {
                         gotoHome()
                     }
-
                     LoginViewModel.ADMIN_TABUNGAN -> {
-                        gotoHistory()
+                        gotoAdminHome()
                     }
-
-                    LoginViewModel.LOGIN_ACTIVITY -> {
-                        // Tetap di halaman Login, tidak perlu aksi tambahan
-                    }
-
                     else -> Unit
                 }
             }
@@ -78,6 +73,10 @@ class LoginActivity : AppCompatActivity() {
                         Toast.LENGTH_SHORT
                     ).show()
                 }
+            }
+
+            adminLogin.setOnClickListener {
+                gotoAdminLogin()
             }
         }
     }
@@ -114,7 +113,15 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun gotoHistory() {
+    private fun gotoAdminLogin() {
+        Intent(this, LoginAdminActivity::class.java).also {
+            it.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(it)
+            finish()
+        }
+    }
+
+    private fun gotoAdminHome() {
         Intent(this, AdminHistoryActivity::class.java).also {
             it.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(it)
