@@ -64,11 +64,14 @@ class LoginViewModel @Inject constructor(
                 viewModelScope.launch {
                     val userDetails = firebaseClient.getUserDetails()
                     Log.d(">>LoginVM", "User Details: $userDetails")
-                    if (userDetails?.prodi == "Admin") {
+                    if (userDetails?.prodi != "Admin") {
+                        _navigate.emit(TABUNGAN_ACTIVITY)
+                        _login.emit(Resource.Success(it.user!!))
+                    } else if (userDetails?.prodi == "Admin") {
                         _navigate.emit(ADMIN_TABUNGAN)
                         _login.emit(Resource.Success(it.user!!))
                     } else {
-                        _login.emit(Resource.Error("Anda tidak memiliki akses sebagai Admin"))
+                        _login.emit(Resource.Error("User not found"))
                     }
                 }
             }
