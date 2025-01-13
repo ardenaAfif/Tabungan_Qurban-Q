@@ -41,9 +41,10 @@ class HistoryActivity : AppCompatActivity() {
 
         val tabColors = listOf(
             R.color.primary, // Semua
-            R.color.red, // Pending
+            R.color.purple, // Pending
             R.color.orange, // Menunggu Konfirmasi
-            R.color.primary // Berhasil
+            R.color.primary, // Berhasil
+            R.color.red, // Dibatalkan
         )
 
         TabLayoutMediator(binding.tabLayoutHistory, binding.viewPagerHistory) { tab, position ->
@@ -52,6 +53,7 @@ class HistoryActivity : AppCompatActivity() {
                 1 -> tab.text = "Menunggu Konfirmasi"
                 2 -> tab.text = "Mengecek"
                 3 -> tab.text = "Berhasil"
+                4 -> tab.text = "Dibatalkan"
                 else -> "Tab $position"
             }
         }.attach()
@@ -86,6 +88,7 @@ class HistoryActivity : AppCompatActivity() {
                     }
                 }
             }
+
             override fun onTabReselected(tab: TabLayout.Tab?) {}
         })
     }
@@ -111,7 +114,10 @@ class HistoryActivity : AppCompatActivity() {
         dialog.setContentView(R.layout.dialog_info_status)
 
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        dialog.window?.setLayout(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
 
         val btnTutup: TextView = dialog.findViewById(R.id.btnTutup)
 

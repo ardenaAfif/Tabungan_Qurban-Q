@@ -214,6 +214,7 @@
         app:layout_constraintTop_toBottomOf="@+id/cardView2" />
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="21dp"
@@ -333,6 +334,20 @@
         </LinearLayout>
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/btnBatalkanTransaksi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/satoshi_medium"
+        android:text="Batalkan Transaksi"
+        android:padding="12dp"
+        android:textColor="@color/red"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/cardView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
         android:layout_width="match_parent"
@@ -360,28 +375,5 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
-<!--    <View-->
-<!--        android:id="@+id/loadingBackground"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:background="#80000000"-->
-<!--        android:visibility="gone"-->
-<!--        android:elevation="10dp"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent" />-->
-
-<!--    <ProgressBar-->
-<!--        android:id="@+id/pbTransfer"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:visibility="visible"-->
-<!--        android:elevation="10dp"-->
-<!--        android:indeterminateTint="@color/primary"-->
-<!--        app:layout_constraintBottom_toTopOf="@+id/cardView"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/toolbar" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

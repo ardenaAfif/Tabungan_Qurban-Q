@@ -1,4 +1,4 @@
-package id.qurban.tabunganqurban.ui.history.all
+package id.qurban.tabunganqurban.ui.history.dibatalkan
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,96 +7,93 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import id.qurban.tabunganqurban.R
 import id.qurban.tabunganqurban.adapter.HistoryAdapter
-import id.qurban.tabunganqurban.databinding.FragmentAllHistoryBinding
+import id.qurban.tabunganqurban.databinding.FragmentBatalHistoryBinding
 import id.qurban.tabunganqurban.ui.detail.batal.DetailBatalNabungActivity
-import id.qurban.tabunganqurban.ui.detail.berhasil.DetailBerhasilNabungActivity
-import id.qurban.tabunganqurban.ui.detail.mengecek.DetailMengecekNabungActivity
-import id.qurban.tabunganqurban.ui.detail.waiting.DetailWaitingNabungActivity
 import id.qurban.tabunganqurban.ui.history.HistoryVM
 import id.qurban.tabunganqurban.utils.Resource
 import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
-class AllHistoryFragment : Fragment() {
+class BatalHistoryFragment : Fragment() {
 
-    private lateinit var binding: FragmentAllHistoryBinding
     private lateinit var historyAdapter: HistoryAdapter
+    private lateinit var binding: FragmentBatalHistoryBinding
     private val historyVM: HistoryVM by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentAllHistoryBinding.inflate(inflater, container, false)
+        binding = FragmentBatalHistoryBinding.inflate(layoutInflater)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupRvAllHistory()
         observeHistory()
+        setupRvBatalHistory()
         handleTransactionListener()
-    }
 
-    private fun handleTransactionListener() {
-        historyAdapter.setOnItemClickListener { transaction ->
-            val intent = Intent(requireContext(), when (transaction.status.lowercase()) {
-                "menunggu konfirmasi" -> DetailWaitingNabungActivity::class.java
-                "mengecek" -> DetailMengecekNabungActivity::class.java
-                "berhasil" -> DetailBerhasilNabungActivity::class.java
-                "dibatalkan" -> DetailBatalNabungActivity::class.java
-                else -> return@setOnItemClickListener
-            })
-            intent.putExtra("transaction", transaction)
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
-            startActivity(intent)
-        }
+        historyVM.fetchTransactionByStatus("Dibatalkan")
     }
 
     private fun observeHistory() {
         lifecycleScope.launchWhenStarted {
-            historyVM.allHistory.collectLatest { resource ->
+            historyVM.batalHistory.collectLatest { resource ->
                 when (resource) {
                     is Resource.Loading -> {
                     }
-
                     is Resource.Success -> {
                         val transactions = resource.data ?: emptyList()
                         binding.apply {
                             if (transactions.isEmpty()) {
                                 layoutNoData.visibility = View.VISIBLE
-                                rvAllTransaction.visibility = View.GONE
+                                rvBatalTransaction.visibility = View.GONE
                             } else {
                                 layoutNoData.visibility = View.GONE
                                 historyAdapter.differ.submitList(resource.data)
                             }
                         }
                     }
-
                     is Resource.Error -> {
                         Toast.makeText(requireContext(), resource.message, Toast.LENGTH_SHORT)
                             .show()
                     }
-
                     else -> Unit
                 }
             }
         }
     }
 
-    private fun setupRvAllHistory() {
+    private fun setupRvBatalHistory() {
         historyAdapter = HistoryAdapter(requireContext())
-        binding.rvAllTransaction.apply {
+        binding.rvBatalTransaction.apply {
             adapter = historyAdapter
             layoutManager = LinearLayoutManager(requireContext())
         }
+    }
+
+    private fun handleTransactionListener() {
+        historyAdapter.setOnItemClickListener { transaction ->
+            when (transaction.status.lowercase()) {
+                "dibatalkan" -> {
+                    val intent = Intent(requireContext(), DetailBatalNabungActivity::class.java)
+                    intent.putExtra("transaction", transaction)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                    startActivity(intent)
+                }
+            }
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
     }
 }

@@ -18,6 +18,12 @@
         android:theme="@style/Theme.TabunganQurbanQ"
         tools:targetApi="31">
         <activity
+            android:name=".ui.detail.batal.DetailBatalNabungActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.history.dibatalkan.BatallHistoryActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.admin.profile.ProfileAdminActivity"
             android:exported="false" />
         <activity

@@ -4,7 +4,6 @@ import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
-import com.google.firebase.firestore.QuerySnapshot
 import id.qurban.tabunganqurban.data.Transaction
 import id.qurban.tabunganqurban.data.User
 import id.qurban.tabunganqurban.utils.Constant
@@ -37,7 +36,7 @@ class FirebaseClient {
             }
     }
 
-    fun updateTransaction(transactionId: String, imageUrl: String) {
+    fun updateMengecekTransaction(transactionId: String, imageUrl: String) {
         val userId = auth.uid ?: throw IllegalStateException("User ID is Null")
 
         val transactionRef = firestore.collection("users").document(userId)
@@ -46,6 +45,21 @@ class FirebaseClient {
         transactionRef.update(
             "buktiTransfer", imageUrl,
             "status", "Mengecek"
+        ).addOnSuccessListener {
+            Log.d("FirebaseClient", "Transaksi berhasil diperbarui")
+        }.addOnFailureListener { exception ->
+            Log.e("FirebaseClient", "Gagal memperbarui transaksi: ${exception.message}")
+        }
+    }
+
+    fun updateBatalTransaction(transactionId: String) {
+        val userId = auth.uid ?: throw IllegalStateException("User ID is Null")
+
+        val transactionRef = firestore.collection("users").document(userId)
+            .collection("history").document(transactionId)
+
+        transactionRef.update(
+            "status", "Dibatalkan"
         ).addOnSuccessListener {
             Log.d("FirebaseClient", "Transaksi berhasil diperbarui")
         }.addOnFailureListener { exception ->
@@ -241,6 +255,30 @@ class FirebaseClient {
         callbackFlow {
             val listenerRegistration = firestore.collection("users").document(userId)
                 .collection("history").whereEqualTo("status", "Berhasil")
+                .orderBy("dateCreated")
+                .addSnapshotListener { snapshot, error ->
+                    if (error != null) {
+                        Log.e(">>Firestore", "Error in query: ${error.message}")
+                        trySend(Resource.Error(error.message ?: "Unknown error")).isSuccess
+                        return@addSnapshotListener
+                    }
+                    if (snapshot == null) {
+                        trySend(Resource.Error("Snapshot is null")).isSuccess
+                        return@addSnapshotListener
+                    }
+                    val history = snapshot.toObjects(Transaction::class.java)
+                    val sortedHistory = history.sortedByDescending { it.dateCreated }
+                    trySend(Resource.Success(sortedHistory)).isSuccess
+                }
+            awaitClose {
+                listenerRegistration.remove()
+            }
+        }
+
+    fun getBatalTransactionHistory(userId: String): Flow<Resource<List<Transaction>>> =
+        callbackFlow {
+            val listenerRegistration = firestore.collection("users").document(userId)
+                .collection("history").whereEqualTo("status", "Dibatalkan")
                 .orderBy("dateCreated")
                 .addSnapshotListener { snapshot, error ->
                     if (error != null) {

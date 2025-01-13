@@ -97,17 +97,25 @@ class DetailMengecekNabungActivity : AppCompatActivity() {
                 when (it) {
                     is Resource.Loading -> {
                     }
+
                     is Resource.Success -> {
                         binding.apply {
                             tvInfoNama.text = getString(
                                 R.string.profile_name_format,
                                 it.data?.firstName.orEmpty().toCamelCase(),
-                                it.data?.lastName.orEmpty().toCamelCase())
+                                it.data?.lastName.orEmpty().toCamelCase()
+                            )
                         }
                     }
+
                     is Resource.Error -> {
-                        Toast.makeText(this@DetailMengecekNabungActivity, it.message, Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            this@DetailMengecekNabungActivity,
+                            it.message,
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
+
                     else -> Unit
                 }
             }
@@ -127,7 +135,10 @@ class DetailMengecekNabungActivity : AppCompatActivity() {
 
     private fun animateDrawableChange() {
         val currentDrawable = ContextCompat.getDrawable(this, indicatorDrawables[currentIndex])
-        val nextDrawable = ContextCompat.getDrawable(this, indicatorDrawables[(currentIndex + 1) % indicatorDrawables.size])
+        val nextDrawable = ContextCompat.getDrawable(
+            this,
+            indicatorDrawables[(currentIndex + 1) % indicatorDrawables.size]
+        )
 
         val transitionDrawable = TransitionDrawable(arrayOf(currentDrawable, nextDrawable))
         binding.indicatorStatus.setImageDrawable(transitionDrawable)
@@ -139,7 +150,8 @@ class DetailMengecekNabungActivity : AppCompatActivity() {
     private fun setupTransactionDetails() {
         binding.apply {
             tvInfoJumlahTransfer.text = formatCurrencyDouble(transaction.amount + 1000.0)
-            tvIdTransaksiMengecek.text = getString(R.string.id_transaction, transaction.transactionId.takeLast(5))
+            tvIdTransaksiMengecek.text =
+                getString(R.string.id_transaction, transaction.transactionId.takeLast(5))
             tvInfoTanggalTransfer.text = transaction.dateCreated
             Glide.with(this@DetailMengecekNabungActivity)
                 .load(transaction.buktiTransfer)
@@ -158,6 +170,7 @@ class DetailMengecekNabungActivity : AppCompatActivity() {
                         is Resource.Loading -> {
                             // Menampilkan indikator loading jika diperlukan
                         }
+
                         is Resource.Success -> {
                             result.data?.let {
                                 transaction = it
@@ -169,9 +182,15 @@ class DetailMengecekNabungActivity : AppCompatActivity() {
                                     .into(binding.ivPreviewBukiTransferCek)
                             }
                         }
+
                         is Resource.Error -> {
-                            Toast.makeText(this@DetailMengecekNabungActivity, "Gagal memperbarui data", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                this@DetailMengecekNabungActivity,
+                                "Gagal memperbarui data",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
+
                         else -> Unit
                     }
                 }
@@ -182,13 +201,17 @@ class DetailMengecekNabungActivity : AppCompatActivity() {
     private fun btnBottomListener() {
         binding.apply {
             btnGoToHome.setOnClickListener {
-                Intent(this@DetailMengecekNabungActivity, MainActivity::class.java).also {
-                    startActivity(it)
-                    finish()
-                }
+                val intent = Intent(this@DetailMengecekNabungActivity, MainActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                startActivity(intent)
+                finish()
+
             }
             btnBatalkanTransaksi.setOnClickListener {
-                Toast.makeText(this@DetailMengecekNabungActivity, "Sabar... belum jadi", Toast.LENGTH_SHORT).show()
+                nabungViewModel.updateBatalTransaction(transaction.transactionId)
+                val intent = Intent(this@DetailMengecekNabungActivity, HistoryActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                startActivity(intent)
             }
         }
     }

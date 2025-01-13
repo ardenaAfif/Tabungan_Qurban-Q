@@ -20,13 +20,11 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import dagger.hilt.android.AndroidEntryPoint
 import id.qurban.tabunganqurban.R
 import id.qurban.tabunganqurban.data.Transaction
 import id.qurban.tabunganqurban.databinding.ActivityDetailWaitingNabungBinding
-import id.qurban.tabunganqurban.ui.MainActivity
 import id.qurban.tabunganqurban.ui.detail.mengecek.DetailMengecekNabungActivity
 import id.qurban.tabunganqurban.ui.history.HistoryActivity
 import id.qurban.tabunganqurban.ui.nabung.NabungVM
@@ -59,11 +57,22 @@ class DetailWaitingNabungActivity : AppCompatActivity() {
         btnCopyListener()
         getUser()
         setupTransactionDetails()
+        batalkanListener()
 
         binding.btnSudahTransfer.setOnClickListener {
             showUploadBottomSheet()
         }
 
+    }
+
+    private fun batalkanListener() {
+        binding.btnBatalkanTransaksi.setOnClickListener {
+            nabungViewModel.updateBatalTransaction(transaction.transactionId)
+            val intent = Intent(this@DetailWaitingNabungActivity, HistoryActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
+            startActivity(intent)
+            finish()
+        }
     }
 
     private fun setupTransactionDetails() {
@@ -188,11 +197,12 @@ class DetailWaitingNabungActivity : AppCompatActivity() {
                 // Mendapatkan URL gambar yang diunggah
                 imageRef.downloadUrl.addOnSuccessListener { imageUrl ->
                     // Simpan URL gambar ke Firestore
-                    nabungViewModel.updateTransaction(transactionId, imageUrl.toString())
+                    nabungViewModel.updateMengecekTransaction(transactionId, imageUrl.toString())
                     Toast.makeText(this, "Gambar berhasil diunggah", Toast.LENGTH_SHORT).show()
                     bottomSheetDialog?.dismiss()
                     val intent = Intent(this@DetailWaitingNabungActivity, DetailMengecekNabungActivity::class.java)
                     intent.putExtra("transaction", transaction)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
                     startActivity(intent)
                     finish()
                 }.addOnFailureListener { exception ->

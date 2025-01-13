@@ -46,7 +46,6 @@ class MengecekHistoryFragment : Fragment() {
         historyVM.fetchTransactionByStatus("Mengecek")
     }
 
-
     private fun handleTransactionListener() {
         historyAdapter.setOnItemClickListener { transaction ->
             when (transaction.status.lowercase()) {

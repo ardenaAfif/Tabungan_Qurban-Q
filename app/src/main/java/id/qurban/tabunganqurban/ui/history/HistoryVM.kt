@@ -31,6 +31,9 @@ class HistoryVM @Inject constructor(
     private val _acceptedHistory = MutableStateFlow<Resource<List<Transaction>>>(Resource.Unspecified())
     val acceptedHistory: StateFlow<Resource<List<Transaction>>> = _acceptedHistory
 
+    private val _batalHistory = MutableStateFlow<Resource<List<Transaction>>>(Resource.Unspecified())
+    val batalHistory: StateFlow<Resource<List<Transaction>>> = _batalHistory
+
     init {
         fetchAllTransaction()
     }
@@ -51,6 +54,7 @@ class HistoryVM @Inject constructor(
             "Mengecek" -> _mengecekHistory
             "Menunggu Konfirmasi" -> _waitingHistory
             "Berhasil" -> _acceptedHistory
+            "Dibatalkan" -> _batalHistory
             else -> throw IllegalArgumentException("Unknown status: $status")
         }
 
@@ -60,10 +64,12 @@ class HistoryVM @Inject constructor(
                 "Mengecek" -> firebaseClient.getMengecekTransactionHistory(userId).collectLatest { resource ->
                     targetFlow.emit(resource)
                 }
-                "Menunggu Konfirmasi" -> firebaseClient.getWaitingTransactionHistory(userId).collectLatest { resource ->
-                    targetFlow.emit(resource)
+                "Menunggu Konfirmasi" -> firebaseClient.getWaitingTransactionHistory(userId).collectLatest { resource -> targetFlow.emit(resource)
                 }
                 "Berhasil" -> firebaseClient.getAcceptedTransactionHistory(userId).collectLatest { resource ->
+                    targetFlow.emit(resource)
+                }
+                "Dibatalkan" -> firebaseClient.getBatalTransactionHistory(userId).collectLatest { resource ->
                     targetFlow.emit(resource)
                 }
             }

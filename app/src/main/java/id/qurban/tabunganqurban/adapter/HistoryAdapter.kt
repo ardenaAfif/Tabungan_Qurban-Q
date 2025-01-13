@@ -46,9 +46,10 @@ class HistoryAdapter(private val context: Context) :
                 tvDateTransaksi.text = transaction.dateCreated // Tanggal sesuai format WIB
                 // Tambahkan style warna status jika diperlukan
                 when (transaction.status.lowercase()) {
-                    "menunggu konfirmasi" -> tvStatus.setTextColor(context.getColor(R.color.red))
+                    "menunggu konfirmasi" -> tvStatus.setTextColor(context.getColor(R.color.purple))
                     "mengecek" -> tvStatus.setTextColor(context.getColor(R.color.orange))
                     "berhasil" -> tvStatus.setTextColor(context.getColor(R.color.primary))
+                    "dibatalkan" -> tvStatus.setTextColor(context.getColor(R.color.red))
                     else -> tvStatus.setTextColor(context.getColor(R.color.grey))
                 }
 

@@ -22,7 +22,7 @@
             android:layout_marginBottom="4dp"
             android:fontFamily="@font/satoshi_bold"
             android:text="Menunggu Konfirmasi"
-            android:textColor="@color/red"
+            android:textColor="@color/purple"
             android:textSize="18sp" />
 
         <TextView
@@ -67,10 +67,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/satoshi_medium"
+            android:layout_marginBottom="16dp"
             android:gravity="center"
             android:text="Transaksi Antum telah berhasil diverifikasi dan diproses."
             android:textColor="@color/black"
             android:textSize="15sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:fontFamily="@font/satoshi_bold"
+            android:text="Dibatalkan"
+            android:textColor="@color/red"
+            android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Transaksi telah dibatalkan, tidak bisa melakukan dengan transaksi ini."
+            android:textColor="@color/black"
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/btnTutup"

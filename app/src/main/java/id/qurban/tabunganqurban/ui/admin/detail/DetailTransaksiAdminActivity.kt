@@ -96,7 +96,7 @@ class DetailTransaksiAdminActivity : AppCompatActivity() {
     private fun statusTransactionColor() {
         binding.apply {
             when (transaction.status.lowercase()) {
-                "menunggu konfirmasi" -> tvStatusTransaksi.setTextColor(this@DetailTransaksiAdminActivity.getColor(R.color.red))
+                "menunggu konfirmasi" -> tvStatusTransaksi.setTextColor(this@DetailTransaksiAdminActivity.getColor(R.color.purple))
                 "mengecek" -> tvStatusTransaksi.setTextColor(this@DetailTransaksiAdminActivity.getColor(R.color.orange))
                 "berhasil" -> tvStatusTransaksi.setTextColor(this@DetailTransaksiAdminActivity.getColor(R.color.primary))
                 else -> tvStatusTransaksi.setTextColor(this@DetailTransaksiAdminActivity.getColor(R.color.grey))

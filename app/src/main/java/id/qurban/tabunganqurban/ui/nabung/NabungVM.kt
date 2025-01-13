@@ -45,10 +45,20 @@ class NabungVM @Inject constructor(
         }
     }
 
-    fun updateTransaction(transactionId: String, imageUrl: String) {
+    fun updateMengecekTransaction(transactionId: String, imageUrl: String) {
         viewModelScope.launch {
             try {
-                firebaseClient.updateTransaction(transactionId, imageUrl)
+                firebaseClient.updateMengecekTransaction(transactionId, imageUrl)
+            } catch (e: Exception) {
+                _transaction.value = Resource.Error(e.message.toString())
+            }
+        }
+    }
+
+    fun updateBatalTransaction(transactionId: String) {
+        viewModelScope.launch {
+            try {
+                firebaseClient.updateBatalTransaction(transactionId)
             } catch (e: Exception) {
                 _transaction.value = Resource.Error(e.message.toString())
             }
